@@ -1,0 +1,355 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Cultural Studies Flashcards</title>
+<style>
+:root{--bg:#f6f7fb;--sf:#fff;--tx:#1d2433;--mu:#64708a;--ac:#3b5bdb;--ok:#2f9e44;--no:#e03131;--bd:#dde1ec;color-scheme:light}
+@media(prefers-color-scheme:dark){:root{--bg:#12151c;--sf:#1b2030;--tx:#e8ebf4;--mu:#98a2bd;--ac:#7c93ff;--ok:#51cf66;--no:#ff6b6b;--bd:#2c3348;color-scheme:dark}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:17px/1.5 system-ui,sans-serif}
+main{max-width:760px;margin:auto;padding:16px}
+nav{display:flex;gap:8px;margin-bottom:12px}nav button{flex:1}
+button,select{font:inherit;padding:10px 14px;border-radius:10px;border:1px solid var(--bd);background:var(--sf);color:var(--tx);cursor:pointer}
+button.on,button.p{background:var(--ac);color:#fff;border-color:var(--ac)}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.row>*{flex:1}
+.scene{perspective:1200px;margin:12px 0}
+.card{position:relative;min-height:340px;transition:transform .5s;transform-style:preserve-3d;cursor:pointer}
+.card.f{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:22px;overflow:auto}
+.back{transform:rotateY(180deg)}
+.tag{color:var(--mu);font-size:14px}.q{font-size:21px;font-weight:600;margin:8px 0 14px}
+.opt{display:block;width:100%;text-align:left;margin:7px 0}
+.opt.ok{background:var(--ok);color:#fff}.opt.no{background:var(--no);color:#fff}
+.ans{font-size:22px;font-weight:700;color:var(--ok);margin:10px 0}
+.box{background:var(--sf);border:1px solid var(--bd);border-radius:14px;padding:16px;margin:10px 0}
+.bar{height:12px;background:var(--bd);border-radius:6px;overflow:hidden}.bar i{display:block;height:100%;background:var(--ac)}
+.big{font-size:30px;font-weight:700}
+</style></head><body><main>
+<h2 style="margin:4px 0 12px">Cultural Studies Flashcards</h2>
+<nav><button id="t0" class="on">Study</button><button id="t1">Practice</button><button id="t2">Progress</button></nav>
+<div class="row" id="flt"><select id="sg"><option value="all">All questions</option><option value="orig">Original lectures</option><option value="new">New exam topics</option></select><select id="wk"></select><select id="st"><option value="all">All cards</option><option value="new">Not learned yet</option><option value="hard">Need more practice</option></select></div>
+<div id="v"></div></main>
+<script>
+// Format: week | question | correct answer | 4 wrong answers separated by ; | (optional) short explanation
+const RAW=`1|The word "culture" comes from the Latin word colere. It means:|to cultivate, to live in, or to honor|to build, to trade, or to travel;to write, to count, or to teach;to rule, to fight, or to judge
+1|Cicero described culture as:|cultivation of the soul|cultivation of the body;cultivation of the land;cultivation of the state
+1|Paideia in ancient Greece means:|formation of a citizen in the polis|training of a soldier for the polis;rule of a king over the polis;worship of gods in the polis
+1|Who made a list of more than 200 definitions of culture in 1952?|A. Kroeber and C. Kluckhohn|E. Tylor and L. White;R. Dawkins and M. Arnold;C. Geertz and V. Turner|Their book: Culture: A Critical Review of Concepts and Definitions.
+1|Who wrote the "complex whole" definition of culture in Primitive Culture (1871)?|Edward Burnett Tylor|Alfred Kroeber;Leslie Alwin White;Clifford Geertz
+1|Cultural relativism means we understand a person's beliefs:|from their own culture's view|from the view of our culture;from the view of science;from the view of the West
+1|Who are the main names of symbolic theory of culture?|V. Turner and C. Geertz|F. Boas and M. Mead;A. Kroeber and C. Kluckhohn;R. Dawkins and L. White|Culture is like a text that we must interpret through symbols.
+1|Who compared memes to biological genes?|Richard Dawkins|Leslie White;Edward Tylor;Ferdinand de Saussure
+1|Who introduced Cultural Studies as a science?|Leslie Alwin White|Edward Burnett Tylor;Margaret Mead;Richard Dawkins
+1|Morphology of culture studies:|the structure, forms and types of culture|the history, heroes and events of culture;the language, writing and signs of culture;the rules, laws and courts of culture
+1|Norms are:|expectations of how people will behave|ideas about what is important in life;ways of controlling people's behavior;beliefs about gods and spirits
+1|Sanctions are:|ways of social control|ideas about what is important;types of music;names of gods
+1|A culture with values that go against the established society is called:|counterculture|folk culture;mass culture;digital culture
+1|Which culture is based on traditional customs, oral traditions and crafts?|Folk culture|Mass culture;Digital culture;Elite culture
+1|Another name for "elite culture" is:|high culture|low culture;mass culture;folk culture
+1|The idea that language shapes how people think is called:|linguistic relativity (Sapir-Whorf)|cultural relativism (Boas and Mead);symbolic theory (Turner and Geertz);sociobiological view (Dawkins)
+1|In Kazakh, the word "bauyrym" (literally "my liver") shows:|kinship and closeness|affection and care;blessing and prosperity;sacred trust and duty
+1|In culture and civilization: culture is the ___ side of society.|internal (values, norms, beliefs)|external (buildings, art, institutions);economic (money and trade);political (laws and power)
+2|In Saussure's model, a sign is made of:|signifier + signified|denotation + myth;syntactics + pragmatics;code + symbol
+2|The signifier is:|the material form of the sign|the mental idea of the sign;the object in the real world;the person who reads the sign
+2|Peirce's sign that looks like what it shows is called an:|icon|index;code;myth|Examples: a photo, a pictogram.
+2|Smoke is a sign of fire. In Peirce's types, this is an:|index|icon;symbol;myth
+2|A sign with no natural link to its meaning, learned by convention, is a:|symbol|icon;index;signifier|Examples: words, traffic signs.
+2|Charles Morris named three areas of semiotics. They are:|semantics, syntactics, pragmatics|denotation, connotation, myth;icon, index, symbol;knowledge, values, regulatives
+2|Julia Kristeva developed:|semanalysis|structuralism;paideia;glocalization
+2|Roland Barthes described three levels of meaning:|denotation, connotation, myth|icon, index, symbol;semantics, syntactics, pragmatics;form, value, rule
+2|In Barthes' theory, "myths" are:|connotations that seem normal|the literal meanings known by everybody;old stories about gods and heroes;signs that look like their objects in life
+2|Denotation is:|the literal meaning most people share|the hidden meaning behind a sign in culture;a meaning that seems natural to people;a meaning based on personal feeling
+2|Olzhas Suleimenov wrote the book:|AZ i IA|Mythologies;Primitive Culture;Kutadgu Bilig
+2|Cultural code is:|a set of images linked to group thinking|a set of laws that a group agreed to follow;a set of letters that a group often uses;a set of tools that a group needs daily
+2|The three kinds of meaning in the anatomy of culture are:|knowledge, values, regulatives|knowledge, values, traditions;beliefs, values, regulatives;knowledge, norms, symbols
+3|Nomadism is a way of life based on:|seasonal movement with herds|settled farming in one place;trade between large cities;hunting in forests and hills
+3|Type of nomadism when half of the time, mostly in winter, people live as settled:|semi-nomadic|fully nomadic;digital;distant
+3|Yaylak (yaylag) means:|a summer mountain pasture|a winter mountain camp;a summer river crossing;a spring herding festival
+3|The shanyrak of the yurt is:|the crown of the yurt|the door of the yurt;the felt cover of the yurt;the floor of the yurt|It shows eternal movement, the sun, family and unity.
+3|The uyk (roof poles of the yurt) are seen as symbols of:|the rays of the sun|the phases of the moon;the paths of the stars;the waves of a river
+3|The ornament "koshkar muyiz" (ram's horns) means:|vitality and prosperity|freedom and the sky;cycles of nature and time;protection from evil spirits
+3|The ornament "qus tumsyq" (bird's beak) means:|freedom and the sky|vitality and prosperity;cycles of nature and time;family and unity
+3|Digital nomadism is a way of life where people:|work online while moving often|farm land while moving often;travel only for holidays;work in one fixed office
+3|Who wrote the book "Digital Nomad"?|Tsugio Makimoto and David Manners|Christopher Earley and Soon Ang;Chris Barker and Emma Jane;Geert Hofstede and Michael Minkov
+3|Tengri is:|the supreme god, the Blue Sky|the goddess of children;the ruler of the lower world;the spirit of land and water
+3|Umai in ancient Turkic belief is:|a goddess who protects children|a god who rules the lower world below;a god of the Blue Sky above all;a spirit of the land and the water
+3|Erlik (Erklig) is:|the god of the lower world|the god of the Blue Sky;the goddess of children;the god of the middle world
+3|Baksy is:|a shaman who links two worlds|a ruler who leads a tribe;a poet who tells epics;a judge who solves disputes
+3|Which Saka thinker is one of the seven sages?|Anacharsis|Al-Farabi;Balasaguni;Kashgari
+3|Toxaris, a Scythian, became respected in Athens as a:|a physician|a merchant;a warrior;a teacher|In Lucian's dialogue he talks about friendship.
+4|In a medieval city, the shahristan is:|the city centre where rulers lived|the outskirts where crafts worked;the market where traders met;the strong fort where soldiers stayed
+4|The rabad is:|a suburb for craft workers|the central part for rulers;the strongest fort of the city;the market for traders
+4|Al-Farabi is known as:|the "Second Teacher"|the "First Teacher";the "Great Teacher";the "Wise Teacher"
+4|One of Al-Farabi's works is:|The Great Book of Music|Kutadgu Bilig;Diwan-i Hikmet;Diwan Lughat at-Turk
+4|Who wrote Kutadgu Bilig?|Yusuf Balasaguni|Al-Farabi;Mahmud al-Kashgari;Khoja Ahmed Yasawi|It is a guide to wise and fair governing.
+4|Mahmud al-Kashgari wrote:|Diwan Lughat at-Turk|Diwan-i Hikmet;Kutadgu Bilig;The Great Book of Music|It is a dictionary and encyclopedia of Turkic culture.
+4|In Kutadgu Bilig, Kun-Togdi (the ruler) stands for:|Justice|Wisdom;Moderation;Power
+4|Sufism is:|mystical Islam seeking God directly|strict Islam following only the law;the old Turkic belief in the Blue Sky;Islamic law based on court rulings
+4|Khoja Ahmed Yasawi wrote:|Diwan-i Hikmet|Kutadgu Bilig;Diwan Lughat at-Turk;The Great Book of Music
+4|The mausoleum of Khoja Ahmed Yasawi is in the city of:|Turkistan|Taraz;Sygnak;Almaty
+4|A tariqa is:|a Sufi brotherhood|a Sufi holy book;a Sufi teacher's tomb;a Sufi pilgrim's road
+5|Zhyraus were:|epic storytellers and advisers|poets who made up songs;musicians who played dombra;judges who solved disputes
+5|Akyns were:|improvising poets and singers|epic storytellers and advisers;makers of dombra and kobyz;judges who ended disputes
+5|Who was a chief adviser to Abylai Khan and a famous zhyrau?|Bukhar Zhyrau|Kurmangazy;Tattimbet;Shortanbai
+5|Kurmangazy was a master of:|kuy, instrumental dombra music|opera, music for the stage;tolgau, poems about life;zhar-zhar, wedding songs
+5|Who is the founder of classical dombra music, a master of the shertpe style?|Tattimbet|Kurmangazy;Dina;Musa
+5|Zhayau Musa's famous song is:|Ak Sisa|Saryarka;Adai;Kishkentai
+5|The Zar-Zaman ("Era of Sorrow") poets were led by:|Shortanbai Kanayuly|Bukhar Kalkamanuly;Kurmangazy Sagyrbayuly;Mirzhakyp Dulatuly
+5|Zar-Zaman poetry criticized:|Russian rule and the loss of customs|Dzungar rule and the loss of land;Soviet rule and the loss of faith;Khan rule and the loss of herds
+5|Zhar-Zhar is:|a choral wedding song|a funeral crying song;a heroic war song;a children's lullaby
+5|April 15 is known as:|Kozy Korpesh - Bayan Sulu Day|Day of Independence;Day of the Constitution;Day of the national currency
+5|The horse of Kabanbai batyr was named:|Qubas|Tulpar;Sanik;Arlan
+6|The December Events (Zheltoqsan) of 1986 were against the appointment of:|G. Kolbin|M. Auezov;K. Satpayev;O. Suleimenov
+6|The Nevada-Semipalatinsk anti-nuclear movement (1989) was founded by:|Olzhas Suleimenov|Mukhtar Shakhanov;Kanysh Satpayev;Mukhtar Auezov
+6|The Law on Languages (1989) gave the Kazakh language the status of:|the state language|a school subject only;a religious language;a foreign language
+6|Who wrote "The Path of Abai" (Abai Zholy)?|Mukhtar Auezov|Sabit Mukanov;Ilyas Esenberlin;Mirzhakyp Dulatuly
+6|"Unhappy Zhamal" (1910) is seen as:|the first novel in Kazakh|the first poem in Kazakh;the first play in Kazakh;the first film in Kazakh
+6|Who was the first president of the Academy of Sciences of the Kazakh SSR (1946)?|Kanysh Satpayev|Olzhas Suleimenov;Al-Farabi;Mukhtar Auezov
+6|Amangeldy (1938-39) was:|the first Kazakh-theme feature film|the first Soviet film made in Almaty city;the first Kazakh opera on the big stage;the first Kazakh novel about the steppe
+6|Who is seen as the founder of Kazakh fine art?|A. Kasteev|N. Khludov;R. Khalfin;S. Maslov
+6|By 1939, literacy among people under 50 reached:|83.6%|50%;60.2%;100%
+6|Today's Al-Farabi Kazakh National University was founded in:|1934|1928;1946;1991
+7|The Declaration on State Sovereignty of Kazakhstan was signed on:|October 25, 1990|December 16, 1991;November 15, 1993;September 1989
+7|The Day of Independence of Kazakhstan is:|16 December 1991|25 October 1990;15 November 1993;1 December 1991
+7|The tenge came into circulation on:|November 15, 1993|November 12, 1993;December 16, 1991;October 25, 1990
+7|Glocalization (term of Roland Robertson) means:|adapting global ideas to local customs|copying local ideas for global use;ending local customs in global trade;mixing all cultures into one
+7|Multiculturalism means:|living together with respect for differences|joining all people into one common culture;keeping every group apart from the others;ranking groups by their money and power
+7|Cultural intelligence (CQ) was described by:|Christopher Earley and Soon Ang|Geert Hofstede and Michael Bond;Roland Robertson and Homi Bhabha;Virginia Shea and Kalervo Oberg
+7|Who wrote the 10 rules of netiquette?|Virginia Shea|Jean Baudrillard;Geert Hofstede;Homi Bhabha
+7|The first rule of netiquette is:|Remember the human|Respect privacy;Look good online;Share knowledge
+7|Jean Baudrillard wrote about:|Simulacra and Simulation|The Selfish Gene;Primitive Culture;The Location of Culture
+7|Which artist made the installation "Flying White" (1997)?|Rustam Khalfin|Sergei Maslov;Moldakul Narymbetov;A. Kasteev
+8|Geert Hofstede first studied people who worked for:|IBM|Google;UNESCO;the UN
+8|The Power Distance Index shows:|how much unequal power people accept|how well people cope with fear;how long people plan their future;how men and women share roles
+8|The Uncertainty Avoidance Index shows:|how well people cope with anxiety|how people accept unequal power;how people share male and female roles;how people plan for a long time
+8|The Baiterek Tower in Astana was designed by:|Akmyrza Rustembekov|Norman Foster;Roland Robertson;Georg Simmel
+8|Khan Shatyr and the Pyramid of Peace were designed by:|Norman Foster|Rustam Khalfin;Le Corbusier;Zaha Hadid
+8|The Pyramid of Peace shows Kazakhstan's:|commitment to peace between faiths|pride in its long nomad history and past;respect for its Soviet past and leaders;wish to build a strong national army
+8|The Mangilik El Triumphal Arch was opened on:|16 December 2011|25 October 1990;15 November 1993;22 March 2010
+8|Georg Simmel wrote "The Metropolis and Mental Life" (1903) after watching:|Berlin|Astana;Moscow;London
+9|Who introduced the term "culture shock"?|Kalervo Oberg|Geert Hofstede;Richard Dawkins;Homi Bhabha
+9|The first stage of culture shock is:|Honeymoon|Rejection;Adjustment;Mastery
+9|The stages of culture shock are:|honeymoon, rejection, adjustment, mastery|honeymoon, anger, shock, recovery and peace;fascination, rejection, return, peace;arrival, fear, anger, learning, mastery
+9|Digital humanities began in 1946 with the work of:|Roberto Busa|Ada Lovelace;Kalervo Oberg;Chris Barker
+9|The term "meme" was introduced in the book:|The Selfish Gene (1976)|Primitive Culture;Digital Nomad;The Location of Culture
+9|Who is called the first computer programmer?|Ada Lovelace|Roberto Busa;Virginia Shea;Julia Kristeva
+9|The "glass ceiling" is:|an invisible barrier to top jobs|a law that limits high salaries;a rule that bans night work;a test for new managers
+9|The E-museum of Kazakhstan has over:|700 3D exhibits|70 exhibits;7,000 exhibits;70,000 exhibits
+10|UNESCO was created in:|1945|1991;1990;2004
+10|How many Kazakhstani sites are on the UNESCO World Heritage List (in the lecture)?|7|3;5;14
+10|The state program "Cultural Heritage" started in:|2004|1991;1997;2011
+10|Who wrote "The Location of Culture" (1994) about cultural hybridity?|Homi Bhabha|Roland Barthes;Geert Hofstede;Edward Tylor
+10|"Taza Kazakhstan" is a national campaign about:|protecting the environment|teaching the Kazakh language;building new smart cities;saving old wedding customs
+10|Ulytau is an example of an:|associative landscape|designed landscape;organically evolved landscape;city park
+10|The Mausoleum of Yasawi is an example of a:|designed landscape|associative landscape;organically evolved landscape;desert
+10|The Final exam has:|40 questions in 50 minutes|20 questions in 30 minutes;30 questions in 40 minutes;50 questions in 60 minutes`;
+const RAW2=`Culture types|Mass culture means:|media-made products for large audiences|art made for a small educated group;crafts handed down in villages;life in a green and simple way
+Culture types|Ecological culture is about:|sustainable life and climate action|online art and the use of digital tools;crafts and old village songs of the past;trade and business in the big city
+Culture types|Digital culture is a culture where users:|users also create and share content|users only watch what the TV channels show;users only buy goods from online shops;users only visit museums on the internet
+Culture types|Hustle culture is a mindset that:|praising constant work and results|praising rest, play and free time for all;rejecting money, success and hard work;respecting old family traditions above work
+Culture types|A subculture is a group whose values are:|different from the main society|opposite to the values of all societies;exactly the same as the main society;taken from the mass media and the news
+Culture types|The Voluntary Human Extinction Movement is an example of:|counterculture|folk culture;mass culture;digital culture
+Culture types|"Stadtluft macht frei" means:|city air brings freedom|city air brings sickness;city walls bring safety;city life brings money|Urban culture idea. Georg Simmel also wrote that city life gives freedom but also pressure.
+Culture types|Values are:|ideas about what is important|expectations of how to behave;ways of controlling behavior;signs with deep meaning
+Culture types|Civic education prepares young people for:|life in society and respect for rights|work in modern industry and business;study of foreign languages and cultures;service in the national army
+Culture types|A cultural institution is a place that:|keeps and shares cultural knowledge|sells goods to many citizens;trains athletes for sport events;builds roads between cities|Examples: theatres, operas, museums, libraries, cultural centers.
+Culture types|A virtual museum is:|a digital form of a museum|a museum of very old objects;a museum that moves between cities;a museum for computer parts
+Culture types|Orteke is:|an art of dance, puppet and music|a wedding song sung by two choirs;a kind of Kazakh tent made of felt;a horseback game played in the spring
+Beliefs|Zher-Su is:|the main deity of the middle world|the ruler of the lower world of death;the god of the Blue Sky and the stars;the protector of women and children
+Beliefs|Tengrism is:|the old belief of Turks and Mongols|the Turkic form of Islamic mysticism;the Greek belief in many gods and heroes;the Soviet belief in science and progress
+Beliefs|The Umai word also means:|a child's soul from birth to speech|a warrior's soul after death;a family's spirit of the hearth;a horse's spirit on the steppe|Umai's umbilical cord was kept in a small pouch on the cradle.
+Beliefs|In old Turkic homes, fire in the hearth was used for:|cleaning away evil spirits|cooking food for the family;heating the yurt in winter;lighting the way at night
+Beliefs|Which funeral custom is from Tengrian or shamanic belief?|night guard and purification by fire|the janaza prayer and body washing;burial facing Mecca and prayer;reading the Quran at a madrasa
+Beliefs|Which funeral custom is Islamic?|janaza (ritual prayer)|night guard;purification by fire;burial near the winter house
+Beliefs|Religious syncretism means:|mixing different beliefs together|hiding old beliefs from others;replacing old beliefs with new ones;banning all religious beliefs
+Beliefs|SADUM was:|the Muslim Spiritual Administration|the Soviet Academy of Sciences;the Soviet Ministry of Culture;the Soviet teachers' union|The lecture names two madrasas linked to it: Mir-i Arab (Bukhara) and Imam Ismail al-Bukhari (Tashkent).
+Traditions|Which are birth customs in the lecture?|shildekhana, besik toi, tusau kesu|zhar-zhar, janaza, betashar;nauryz, aitys, orteke, kokpar;kokpar, asyq, kuresi, kyz kuu|Tusau kesu is the ceremony of cutting a baby's first steps.
+Traditions|In fairy tales, Zhetyrnaq is:|a creature with copper or iron claws|a swift-footed old man of the steppe;a one-eyed giant who lives in a forest;a wicked old witch who lives in a cave
+Traditions|In fairy tales, Dyu is:|a demon or giant|a fairy or spirit;a wise old man;a swift hero
+Traditions|Mistan Kempir is:|a wicked old witch|a kind old fairy;a one-eyed giant;a swift runner
+Traditions|Zhalgyz Kozdi Dau is:|the One-Eyed Giant|the Black Giant;the Swift-Footed One;a fairy
+Traditions|Kazakh heroic epics are about:|courage and defending the homeland|love, beauty and honor between two people;wisdom and old proverbs of the ancestors;family life and wedding customs at home|Examples: Er-Targyn, Koblandy. Lyrical epics (Kyz Zhibek) are about love and honor.
+Traditions|Boytumar are:|protective amulets|hair ornaments;a ring for the matchmaker's mother;belts
+Traditions|Which are traditional Kazakh national games?|Kokpar, Asyq atu, Togyzqumalaq, Kyz kuu|Kokpar, polo, Togyzqumalaq, boxing;Asyq atu, chess, tennis, Kyz kuu;Kokpar, judo, Togyzqumalaq, golf
+Traditions|Tolgau poetry is about:|ethics, honor, life and death|war, unity of tribes and a strong state;love, beauty and the nature of the steppe;trade, wealth and the land of the khans
+Signs and nomads|Semi-settled nomadism means:|half of the people move with herds|all people move all year with herds;people move only for summer trade;people stay in towns and farm
+Signs and nomads|Aishyq gul ("moonflower") shows:|cycles of nature and time|strength and power of rulers;vitality and wealth;freedom of the sky
+Signs and nomads|Conventional signs are signs:|made and agreed by society|shown by a natural link;found in nature and animals;drawn as pictures of objects
+Signs and nomads|Cultural symbols are signs that:|carry deep and rich meaning|have only one clear meaning;copy the look of an object;show only numbers and math
+Signs and nomads|Semiotics is:|the study of signs and meaning|the study of old texts and books;the study of speech sounds and words;the study of customs and rituals
+Signs and nomads|In Barthes' example of the Eiffel Tower, the denotation is:|a tower in Paris|romance;tourism;a natural symbol of Paris
+Signs and nomads|In Barthes' example of the Eiffel Tower, the myth is:|it is seen as Paris's natural symbol|it is a tower in the city of Paris;it brings tourists to France and romance;it is a tall metal building
+Medieval|Which are medieval Turkic urban centres in the lecture?|Otrar, Taraz, Suyab, Balasagun, Sygnak|Merv, Bukhara, Khiva, Samarkand, Balkh;Almaty, Astana, Aktau, Atyrau, Aktobe;Baghdad, Cairo, Damascus, Cordoba, Fez
+Medieval|A citadel is:|the most protected part of a city|the market where goods were sold in a city;the baths where citizens washed in a city;the suburb where craft workers lived
+Medieval|Which city element was NEW in this medieval period?|the mosque|the bazaar;the bath;the wall
+Medieval|Medieval coins in the lecture were:|gold dinars and silver-plated dirhams|silver dinars and gold-plated tenge;copper dirhams and iron dinars;gold tenge and silver rubles
+Medieval|The word "Sufism" (tasawwuf) literally means:|to dress in wool|to pray at night;to love God;to travel
+Medieval|Which are Sufi orders in the lecture?|Naqshbandi, Yassawi, Qadiriyya|Tengri, Umai, Erlik;Sunni, Shia, Ibadi;Honeymoon, Mastery, Rejection
+Medieval|Sufism spread widely in Central Asia in the:|10th-12th centuries|2nd-4th centuries;15th-16th centuries;18th century
+Medieval|"The Conference of the Birds" was written by:|Farid ud-Din Attar|Yusuf Balasaguni;Khoja Ahmed Yasawi;Mahmud al-Kashgari
+Medieval|Kashgari's proverb "If you cannot bite a stone, kiss it" means:|be kind to reach your goal|be strong to defeat your enemy;be patient and wait for luck;be careful with hard objects
+Medieval|Renaissance culture focused on:|humanism and human dignity|God, sin and salvation;reason, science and progress;tradition, faith and the state
+Medieval|Enlightenment culture (Voltaire, Montesquieu, Rousseau) focused on:|reason, science, freedom, equality|God, the soul and salvation from sin;human dignity, beauty and harmony;tradition, trade and the growth of empire
+Medieval|Culture in the Western Middle Ages focused on:|God, the soul and salvation|reason, science and progress;human dignity and beauty;trade, craft and cities
+Medieval|Al-Farabi, Ibn Sina and Al-Biruni belong to:|medieval Islamic culture|the Renaissance period;the Enlightenment period;the classical Greek period
+People and art|Who wrote the opera "Birzhan and Sara"?|M. Tulebaev|A. Zhubanov;L. Khamidi;K. Satpayev
+People and art|Who wrote the opera "Kyz Zhibek"?|E. Brusilovski|M. Tulebaev;A. Zhubanov;N. Khludov
+People and art|Who wrote the books "Forty Fables" and "The Mosquito"?|Akhmet Baitursynov|Mirzhakyp Dulatuly;Alikhan Bokeikhanov;Mukhtar Auezov
+People and art|Who wrote "Awake, Kazakh!" (1909)?|Mirzhakyp Dulatuly|Akhmet Baitursynov;Alikhan Bokeikhanov;Ilyas Esenberlin
+People and art|"Nomads" is a multi-volume work by:|Ilyas Esenberlin|Mukhtar Auezov;Sabit Mukanov;Olzhas Suleimenov
+People and art|Who wrote "Botagoz"?|Sabit Mukanov|Mukhtar Auezov;Ilyas Esenberlin;A. Nurpeisov
+People and art|Who wrote "Blood and Sweat"?|A. Nurpeisov|Sabit Mukanov;Mukhtar Auezov;Dulatuly
+People and art|Who played the role of Amangeldy in the film?|Elubai Umurzakov|Kanysh Satpayev;Olzhas Suleimenov;Rustam Khalfin
+People and art|Who started a painting studio in 1920?|N. Khludov|A. Kasteev;R. Khalfin;S. Maslov
+People and art|Name opera singers from the lecture:|Roza Baglanova and Bibigul Tulegenova|Tattimbet Kazangapuly and Zhayau Musa;Rustam Khalfin and Sergei Maslov;Mukhtar Auezov and Sabit Mukanov
+People and art|Rustam Khalfin, Sergei Maslov and Moldakul Narymbetov were:|modern Kazakh artists|medieval Turkic poets;Soviet film directors;opera singers
+Identity and globalization|Globalization means:|growing links between countries|growing distance between countries;the end of trade between countries;the rule of one country over others
+Identity and globalization|A common result of globalization is:|weaker cultural borders and more similarity|stronger cultural borders and more variety;fewer people moving to other countries;less contact between world cultures
+Identity and globalization|Self-identity is:|how we see ourselves and our story|how other people see our country;how we look on social media;how the state gives us a name
+Identity and globalization|Digital identity is:|how you show yourself on social media|how you log into a bank account;how you store your passport data;how you name your computer files
+Identity and globalization|National identity is the link of citizens with:|their country's history and values|their own job, income and education;their own city, school and neighbors;their own age, gender and family
+Identity and globalization|Cultural hybridity (Homi Bhabha) means:|mixing of cultures into new forms|keeping cultures apart and pure;losing one culture to another;copying one culture exactly
+Identity and globalization|One challenge of globalization for culture is:|pressure on language and youth interest|more visibility for the culture around the world;more support for the preservation of heritage;wider use of modern media tools
+Identity and globalization|Tradition gives culture:|a stable base and continuity|fast change and new ideas;economic growth and profit;technology and modern tools
+Identity and globalization|Traditional ecological knowledge (TEK) includes:|the yurt, horse culture, Tengrism, Nauryz|modern cities, factories, banks, malls;the internet, robots, apps, drones;Soviet films, opera, ballet, circus
+Identity and globalization|Cultural memory is kept by:|museums, schools and local projects|banks, shops, factories and offices;armies, courts and police stations;airports, roads, ports and railways
+Heritage and ecology|UNESCO World Heritage has three categories:|monuments, building groups and sites|paintings, books, songs and dances;rivers, lakes, mountains and forests;temples, tombs, palaces and towers
+Heritage and ecology|Traditional sport "kures" is:|wrestling|a horse game;a board game;a dance
+Heritage and ecology|Kokpar is:|a horseback game|wrestling;a knucklebone game;a board game
+Heritage and ecology|Asyk is:|a knucklebone game|a horseback game;a wrestling sport;a board game
+Heritage and ecology|How many ICH elements of Kazakhstan are listed in the lecture?|14|7;20;40
+Heritage and ecology|Which three types of cultural landscapes are in the lecture?|designed, evolved and associative|natural, urban and rural landscapes;ancient, modern and future landscapes;sacred, wild and farm landscapes
+Heritage and ecology|The Kazakh steppe is an example of an:|an organically evolved landscape|a designed landscape made on purpose;an associative landscape linked to myths;a modern urban garden landscape
+Heritage and ecology|Ecological culture is a system of:|knowledge and values about nature|laws and fines about nature;tools and machines for nature;stories and songs about nature
+Hofstede and CQ|Hofstede's six dimensions include:|power distance, individualism, masculinity, uncertainty, time, indulgence|power distance, religion, language, uncertainty, time, wealth;individualism, age, masculinity, power, education, indulgence;masculinity, wealth, religion, uncertainty, time, language
+Hofstede and CQ|In a high individualism society, people:|weak ties outside close family|strong ties to every group member;high loyalty to the whole community;care for each other's well-being
+Hofstede and CQ|In a collectivist society, people:|strong loyalty to their group|weak ties outside their family;high respect for privacy;little care for others
+Hofstede and CQ|In a masculine society:|success and money matter most|modesty is seen as a virtue;male and female roles overlap;relations with leaders matter most
+Hofstede and CQ|In a feminine society:|modesty and good relations matter|winning and money matter most;men must be strong and fast;male and female roles differ
+Hofstede and CQ|Long-term orientation societies tend to be:|practical, modest and thrifty|focused on strict principles and truth;proud, nationalistic and very religious;stable, careful and slow to change
+Hofstede and CQ|A high indulgence (IVR) score means people:|enjoy life and have fun freely|follow strict rules about social behavior;hide their feelings from other people;work with strong limits on pleasure
+Hofstede and CQ|A low indulgence (restraint) score means:|more rules and less free fun|more parties and free fun;fewer rules and more joy;open and relaxed habits
+Hofstede and CQ|Which CQ dimension is "knowledge about cultures"?|cognitive CQ|motivational CQ;behavioral CQ;digital CQ
+Hofstede and CQ|Which CQ dimension is "interest and confidence"?|motivational CQ|cognitive CQ;metacognitive CQ;behavioral CQ
+Hofstede and CQ|Which CQ dimension is "flexible behavior"?|behavioral CQ|cognitive CQ;metacognitive CQ;digital CQ
+Hofstede and CQ|Which CQ dimension is "the mental ability to gain cultural knowledge"?|metacognitive CQ|cognitive CQ;motivational CQ;behavioral CQ
+Astana|The capital moved from Almaty to Akmola (Astana) in:|1997-98|1991;1993;2004|The lecture marks this move as the start of a new urban culture.
+Astana|The Baiterek's golden egg shows:|the Tree of Life and rebirth|a nomad tent and the idea of home;peace between many world religions;the idea of an eternal country
+Astana|Khan Shatyr is:|the tallest tent in the world|the tallest tower in the world;the tallest pyramid in the world;the largest museum in the world
+Astana|Mangilik El means:|Eternal Country|Great Tent;Golden Egg;Peace Palace
+Astana|An "8-80 city" idea means a city:|good for children and old people|built mainly for cars and fast traffic;designed first for tourists and visitors;planned for business centres and offices
+Astana|A "smart city" uses:|high-tech tools for better services|old tools that give slow services;farm tools for life in the village;paper records for work in the city
+Digital and ethics|Netiquette is:|rules for good behavior online|rules for writing computer code;rules for selling goods online;rules for making online friends
+Digital and ethics|The Golden Rule of Netiquette is:|Do not say online what you would not say offline|Respect other people's time and bandwidth when online;Remember that a real person is behind the screen;Make yourself look good when you are online
+Digital and ethics|Digital ethics studies:|moral rules in the digital world|rules for building and fixing computers;laws about banks and online trade;skills for digital design and art
+Digital and ethics|The main features of a meme are:|passed on by imitation and competition|made only by experts and famous artists;kept secret inside small closed groups;protected by law as a work of art
+Digital and ethics|The first projects in digital humanities began in:|1946|1990;2004;1871
+Digital and ethics|Roberto Busa's project made:|the 56-volume Index Thomisticus|the Kazakh National Corpus of texts;the ORBIS model of travel in Rome;the Kazakh E-museum of national heritage
+Digital and ethics|The Kazakh National Corpus has about:|about 250,000,000 word uses|about 2,500,000 word uses;about 25,000,000 word uses;about 250,000 word uses
+Digital and ethics|ORBIS is a model of:|a model of the Roman world|a model of the Silk Road;a model of ancient Egypt;a model of the medieval Sahara
+Digital and ethics|Gender pay gap means:|pay differences between men and women|tax differences between men and women;job types for men and women;study fees for men and women
+Digital and ethics|Gender bias in AI happens when:|AI gives unfair results from biased data|AI works too slowly when data is old;AI costs too much money to build and run;AI is hidden from the public by companies
+Digital and ethics|Gender equality means:|equal rights and chances for all genders|equal pay for all but different jobs;equal chances for all but different rights;equal pay for all but fewer rights
+Digital and ethics|The "Techno Women" group in Kazakhstan:|brings together women in technology|trains young people for sport;supports artists in the cities;helps farmers with new tools
+Digital and ethics|The Kazakhstan Law on Artificial Intelligence was passed on:|November 17, 2025|January 1, 1991;March 22, 2004;December 16, 2011
+Dates and order|Which event happened first?|Declaration on State Sovereignty|Introduction of the tenge;Independence Day of Kazakhstan;Moving the capital to Akmola|25 Oct 1990. The tenge came on 15 Nov 1993 and the capital moved in 1997-98.
+Dates and order|Which event happened last?|Moving the capital to Akmola|Declaration on State Sovereignty;Kazakhstan's Independence Day;Introduction of the tenge|The capital moved in 1997-98.
+Dates and order|Which event happened first?|The December Events (Zheltoqsan)|The Nevada-Semipalatinsk movement;The Declaration on Sovereignty;The Day of Independence|1986, then 1989, then 1990, then 1991.
+Dates and order|Which education event came last?|Academy of Sciences of the Kazakh SSR|First Kazakh pedagogical university;Compulsory primary education;Kazakh State University|1928, 1930, 1934, and the Academy in 1946.
+Dates and order|Which education event came first?|The first literacy schools opened|Universal primary education began;Kazakh State University opened;The Academy of Sciences began|Literacy schools: 1917-1918.
+Dates and order|Which work was published last?|The Mosquito|Forty Fables;Unhappy Zhamal;Awake, Kazakh!|Forty Fables and Awake, Kazakh! 1909; Unhappy Zhamal 1910; The Mosquito 1911.
+Dates and order|Who was born first?|Tattimbet Kazangapuly|Kurmangazy Sagyrbayuly;Zhayau Musa Bayzhanuly;Mirzhakyp Dulatuly|Born: 1815, 1818, 1835 and 1885.
+Dates and order|Who lived in the 17th and 18th centuries?|Bukhar Zhyrau Kalkamanuly|Tattimbet Kazangapuly;Kurmangazy Sagyrbayuly;Zhayau Musa Bayzhanuly|He lived 1668-1781.
+Dates and order|Which musician lived into the 20th century?|Zhayau Musa Bayzhanuly|Tattimbet Kazangapuly;Kurmangazy Sagyrbayuly;Bukhar Zhyrau Kalkamanuly|Musa: 1835-1929.
+Dates and order|Which artist died in 2002?|Sergei Maslov|Rustam Khalfin;Moldakul Narymbetov;A. Kasteev|Khalfin 1949-2008, Maslov 1952-2002, Narymbetov 1948-2011.
+Dates and order|In which century did Kashgari write his Diwan?|11th century|9th century;13th century;15th century|It was written in 1072-1074.
+Dates and order|Mongol campaigns stopped the growth of medieval cities in the:|13th century|9th century;11th century;15th century|The lecture says Mongol campaigns disrupted urban and trade centres.
+Dates and order|Which period often said "culture" and "civilization" are the same?|the 18th-19th centuries|the Middle Ages;the 20th century;ancient Greece|Today culture is seen as plural and diverse.
+Dates and order|Which tradition was listed by UNESCO most recently?|Betashar, wedding ritual|Orteke, performing art;Falconry, living heritage;Aitys, improvised poetry|Betashar 2024; Orteke 2022; Falconry 2021; Aitys 2015.
+Dates and order|Which tradition was listed by UNESCO first?|Dombra kuy art|Aitys, improvised poetry;Kuresi, wrestling;Asyq games|Dombra kuy 2014, Aitys 2015, Kuresi 2016, Asyq 2017.
+Dates and order|What happened in Kazakh cinema in 1942-1944?|Mosfilm moved to Almaty|Amangeldy was filmed;Vostokkino studio opened;Kyz Zhibek was filmed|Mosfilm was evacuated to Almaty in World War II.
+Dates and order|When did the Vostokkino studio start?|1929|1920;1938;1946|Amangeldy came later, in 1938-39.
+People and works|Which match is incorrect?|Mukhtar Auezov - Botagoz|Mirzhakyp Dulatuly - Unhappy Zhamal;Ilyas Esenberlin - Nomads;A. Nurpeisov - Blood and Sweat|Botagoz is by Sabit Mukanov.
+People and works|Which match is incorrect?|Kurmangazy - Ak Sisa|Kurmangazy - Saryarka;Tattimbet - shertpe style;Zhayau Musa - Ak Sisa|Kurmangazy wrote Saryarka and Kishkentai. Ak Sisa is by Zhayau Musa.
+People and works|Which match is incorrect?|Bokeikhanov - Forty Fables|Baitursynov - The Mosquito;Dulatuly - Awake, Kazakh!;Dulatuly - Unhappy Zhamal|Forty Fables is by Akhmet Baitursynov.
+People and works|Which match is incorrect?|Dawkins - symbolic theory|Boas and Mead - relativism;Turner and Geertz - culture as text;Sapir and Whorf - language ideas|Dawkins is linked to memes (sociobiological view).
+People and works|Which work is called the "encyclopedia of Kazakh people's life"?|The Path of Abai|Botagoz;Nomads;Blood and Sweat|By Mukhtar Auezov.
+People and works|Which book follows Kazakh history from the 15th to the mid-19th century?|Nomads|The Path of Abai;Botagoz;Blood and Sweat|By Ilyas Esenberlin.
+People and works|Which trilogy is about 1918-1920 and Aral Sea fishermen?|Blood and Sweat|Nomads;Botagoz;Unhappy Zhamal|By A. Nurpeisov.
+People and works|Which novel shows social change and conflict in the revolution?|Botagoz|Nomads;Unhappy Zhamal;The Path of Abai|By Sabit Mukanov.
+People and works|Which Kazakh hero is the main person of A. Bek's Volokolamsk Highway?|Bauyrzhan Momyshuly|Elubai Umurzakov;Olzhas Suleimenov;Mukhtar Auezov|He also wrote Our Family.
+People and works|Who painted Abai's portrait for the 20th anniversary of his death?|N. Krutilnikov|N. Khludov;A. Kasteev;R. Khalfin|Khludov began a painting studio in 1920.
+People and works|Which opera was written by Zhubanov and Khamidi?|Abai|Birzhan and Sara;Kyz Zhibek;Er Targyn|Tulebaev: Birzhan and Sara. Brusilovski: Kyz Zhibek.
+People and works|Which group lists kuy composers of the 19th century?|Kurmangazy, Dina, Dauletkerey, Tattimbet|Baglanova, Omarova, Zhienkulova, Tulegenova;Tulebaev, Zhubanov, Khamidi, Brusilovski;Bukhar, Dulat, Murat, Shortanbai|These are masters of instrumental music (kuy).
+People and works|Which group lists opera and theatre performers?|Baglanova, Omarova, Zhienkulova, Tulegenova|Kurmangazy, Dina, Dauletkerey, Tattimbet;Khalfin, Maslov, Narymbetov, Kasteev;Auezov, Mukanov, Nurpeisov, Esenberlin|Opera was a new genre in the Soviet time.
+People and works|Which poet was in Zar-Zaman with Shortanbai?|Dulat Babatayuly|Bukhar Kalkamanuly;Mirzhakyp Dulatuly;Alikhan Bokeikhanov|Murat is also named.
+People and works|Why was Musa called "Zhayau"?|A rich man took his horse|He loved long walks in hills;He was a poor travelling singer;He lost his horse in a race|Zhayau means "on foot". His song is Ak Sisa.
+People and works|The kuys of Kurmangazy mainly express:|freedom and resistance to injustice|praise for rich khans;joy of wedding feasts;love of city life|He was inspired by the 1836-1838 uprising.
+People and works|The kuys of Kurmangazy were inspired by the uprising of:|Isatay Taimanuly and Makhambet Utemisuly|Kenesary Kasymuly and Naurzbai;Abylai Khan and Bukhar Zhyrau;Shortanbai and Dulat Babatayuly|The uprising of 1836-1838.
+People and works|Which statement about Tattimbet is correct?|He founded classical dombra music|He lived until the year 1929;He wrote the opera Kyz Zhibek;He was a chief adviser of Abylai|He was a master of the shertpe style.
+People and works|What did Kashgari's Diwan include?|songs, legends and 400+ proverbs|only Arabic poems and prayers;only laws of the Karakhanid state;only maps and trade routes|It is also a dictionary of Turkic culture.
+People and works|How many proverbs are in Kashgari's Diwan?|more than 400|more than 40;more than 4,000;more than 100|From Diwan Lughat al-Turk.
+People and works|Kashgari's proverb "the mouth that says fire does not burn" is used when someone:|apologizes for what was said|asks others for a warm fire;warns people about danger;praises a good friend|It excuses words that were said.
+People and works|Who is seen as the founder of Turkic Sufism?|Khoja Ahmed Yasawi|Al-Farabi;Yusuf Balasaguni;Mahmud al-Kashgari|He wrote Diwan-i Hikmet; his mausoleum is in Turkistan.
+People and works|Sufism started in the:|9th century in Iraq|5th century in Greece;12th century in Turkistan;15th century in Iran|This fact comes from your practice file (question 1).
+People and works|What ideas did Bokeikhanov, Baitursynov and Dulatuly share?|national identity and education|loyalty to the Soviet system;a love of opera and theatre;work as court poets|They were Alash intellectuals of the national awakening.
+Symbols and places|Which building shows a modern nomadic tent?|Khan Shatyr|Baiterek Tower;Pyramid of Peace;Mangilik El Arch|Designed by Norman Foster; the tallest tent in the world.
+Symbols and places|Which building has places for Islam, Christianity, Judaism and other faiths?|The Pyramid of Peace|Khan Shatyr;The Baiterek Tower;The Mangilik El Arch|The "Palace of Peace and Reconciliation".
+Symbols and places|Which statement about Baiterek is correct?|It joins Turkic myth with modern design|It was designed by Norman Foster;It is a tent made of felt;It was opened in 2011 for peace|The architect is Akmyrza Rustembekov.
+Events and causes|What was the main aim of the Nevada-Semipalatinsk movement?|to stop nuclear tests|to change the capital city;to defend the Kazakh language;to open new universities|It started in 1989 under Olzhas Suleimenov.
+Events and causes|What was a result of the Law on Languages (1989)?|Kazakh became the state language|Kazakh became a school subject only;Russian was banned in all schools;Kazakh got a new alphabet|The law was passed in 1989.
+Events and causes|What was the double role of Soviet cinema in Kazakhstan?|it spread Soviet ideas and built Kazakh identity|it spread Kazakh ideas and banned Soviet films;it showed only films from foreign countries;it promoted Soviet ideas and ignored Kazakh themes|Example: Amangeldy (1938-39).
+Events and causes|Which fact about the literacy campaigns is correct?|literacy reached 83.6% by 1939|literacy reached 100% by 1930;literacy reached 50% by 1939;literacy reached 83.6% by 1917|Compulsory primary education began in 1930.
+Terms compared|How is glocalization different from globalization?|it adapts global things to local life|it adapts local things to global life;it stops global things from entering;it is only about world trade|Robertson's term.
+Terms compared|Which statement about subculture and counterculture is correct?|counterculture goes against main values|subculture goes against main values;both copy mass culture;both are kinds of folk culture|A subculture only differs from the main society.
+Terms compared|Which culture shock stage comes after rejection?|adjustment|honeymoon;mastery;anger|Order: honeymoon, rejection, adjustment, mastery.
+Terms compared|How is Geertz's view different from Dawkins' view?|Geertz sees culture as text, Dawkins as genes|Geertz sees culture as genes, Dawkins as text;both see culture as a living text;both see culture as copied genes|Geertz: symbols to interpret. Dawkins: memes like genes.
+Terms compared|Culture is the internal side of society. Civilization is its:|external form: institutions and arts|inner form: values and beliefs;natural form: land and climate;secret form: myths and codes|Culture = values, norms, beliefs.`;
+const mk=(r,o,n)=>r.split("\n").map((l,i)=>{const p=l.split("|");return{id:o+i,w:n?p[0]:+p[0],n:n,q:p[1],a:p[2],d:p[3].split(";"),e:p[4]||""}});
+const O=mk(RAW,0,0),N=mk(RAW2,O.length,1),C=O.concat(N),TP=[...new Set(N.map(c=>c.w))];
+const lab=c=>c.n?"Topic: "+c.w:"Lecture "+c.w;
+const K="csflash1";let S={known:{},hard:{},scores:[]};
+try{S=Object.assign(S,JSON.parse(localStorage.getItem(K)||"{}"))}catch(e){}
+const save=()=>{try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}};
+const $=id=>document.getElementById(id),sh=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const L="ABCD";let tab=0,deck=[],pos=0,flip=false,P=null;
+$("wk").innerHTML='<option value="0">All lectures</option>'+[...Array(10)].map((_,i)=>`<option value="${i+1}">Lecture (Week) ${i+1}</option>`).join("")+TP.map(t=>`<option value="${t}">Topic: ${t}</option>`).join("");
+function filt(){const w=$("wk").value,s=$("st").value,g=$("sg").value;return C.filter(c=>(g=="all"||(g=="orig"&&!c.n)||(g=="new"&&c.n))&&(w=="0"||c.w==w)&&(s=="all"||(s=="new"&&!S.known[c.id])||(s=="hard"&&S.hard[c.id])))}
+function build(){deck=filt();pos=0;flip=false;P=null;render()}
+let bag=[];
+function opts(c){if(!bag.length)bag=sh([0,1,2,3,0,1,2,3]);let p=bag.pop();const d=sh(c.d),o=[];for(let i=0;i<4;i++)o.push(i==p?c.a:d.pop());return o}
+function render(){["t0","t1","t2"].forEach((t,i)=>$(t).className=i==tab?"on":"");$("flt").style.display=tab==2?"none":"flex";
+ if(tab==2)return prog();
+ if(!deck.length){$("v").innerHTML='<div class="box">No cards match this filter.</div>';return}
+ tab==0?study():prac()}
+function study(){const c=deck[pos];
+ const o=c._o||(c._o=opts(c));
+ $("v").innerHTML=`<div class="tag">Card ${pos+1} of ${deck.length}${S.known[c.id]?" · ✔ known":""}${S.hard[c.id]?" · ⚠ need practice":""}</div>
+<div class="scene"><div class="card ${flip?"f":""}" id="cd"><div class="face"><div class="tag">${lab(c)}</div><div class="q">${c.q}</div>${o.map((x,i)=>`<div>${L[i]}) ${x}</div>`).join("")}<p class="tag">Tap the card to see the answer</p></div>
+<div class="face back"><div class="tag">${lab(c)}</div><div class="q">${c.q}</div><div class="ans">${L[o.indexOf(c.a)]}) ${c.a}</div><div>${c.e}</div></div></div></div>
+<div class="row"><button id="pv">← Previous</button><button id="sa">Show answer</button><button id="nx">Next →</button></div>
+<div class="row"><button id="kn" class="p">I know this</button><button id="hd">Need more practice</button><button id="sf">Shuffle</button></div>`;
+ $("cd").onclick=$("sa").onclick=()=>{flip=!flip;$("cd").classList.toggle("f",flip)};
+ const go=d=>{pos=(pos+d+deck.length)%deck.length;flip=false;deck[pos]._o=null;study()};
+ $("pv").onclick=()=>go(-1);$("nx").onclick=()=>go(1);
+ $("kn").onclick=()=>{S.known[c.id]=1;delete S.hard[c.id];save();go(1)};
+ $("hd").onclick=()=>{S.hard[c.id]=1;delete S.known[c.id];save();go(1)};
+ $("sf").onclick=()=>{deck=sh(deck);pos=0;flip=false;study()}}
+function prac(){
+ if(!P)P={i:0,s:0,list:sh(deck),done:false,pick:null,o:null};
+ if(P.i>=P.list.length){S.scores.push({d:new Date().toLocaleDateString(),s:P.s,n:P.list.length});save();
+  $("v").innerHTML=`<div class="box"><div class="tag">Final result</div><div class="big">${P.s} / ${P.list.length}</div><p>${Math.round(100*P.s/P.list.length)}% correct</p><button class="p" id="rs">Restart</button></div>`;
+  $("rs").onclick=()=>{P=null;prac()};return}
+ const c=P.list[P.i];P.o=P.o||opts(c);
+ $("v").innerHTML=`<div class="tag">Question ${P.i+1} of ${P.list.length} · Score ${P.s}</div><div class="box"><div class="tag">${lab(c)}</div><div class="q">${c.q}</div>
+ ${P.o.map((x,i)=>{let cl="";if(P.pick!=null){if(x==c.a)cl="ok";else if(i==P.pick)cl="no"}return`<button class="opt ${cl}" data-i="${i}">${L[i]}) ${x}</button>`}).join("")}
+ ${P.pick!=null?`<p><b>${P.o[P.pick]==c.a?"✔ Correct!":"✘ Not correct."}</b> Answer: ${c.a}. ${c.e}</p><button class="p" id="nq">${P.i+1<P.list.length?"Next question":"See result"}</button>`:""}</div>`;
+ document.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{if(P.pick!=null)return;P.pick=+b.dataset.i;
+  if(P.o[P.pick]==c.a){P.s++;S.known[c.id]=1;delete S.hard[c.id]}else{S.hard[c.id]=1;delete S.known[c.id]}save();prac()});
+ if($("nq"))$("nq").onclick=()=>{P.i++;P.pick=null;P.o=null;prac()}}
+function prog(){const n=C.length,k=Object.keys(S.known).length,h=Object.keys(S.hard).length,pc=Math.round(100*k/n);
+ $("v").innerHTML=`<div class="box"><div class="tag">Overall progress</div><div class="big">${pc}%</div><div class="bar"><i style="width:${pc}%"></i></div></div>
+ <div class="box">Total cards: <b>${n}</b><br>Learned: <b>${k}</b><br>Need more practice: <b>${h}</b><br>Not seen yet: <b>${n-k-h}</b></div>
+ <div class="box"><div class="tag">Practice scores</div>${S.scores.length?S.scores.slice(-10).reverse().map(x=>`<div>${x.d}: ${x.s} / ${x.n}</div>`).join(""):"No practice test yet."}</div>
+ <button id="rp">Reset all progress</button>`;
+ $("rp").onclick=()=>{if(confirm("Delete all progress?")){S={known:{},hard:{},scores:[]};save();prog()}}}
+[0,1,2].forEach(i=>$("t"+i).onclick=()=>{tab=i;P=null;build()});
+$("wk").onchange=$("st").onchange=$("sg").onchange=()=>{P=null;build()};
+build();
+</script></body></html>
