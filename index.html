@@ -1,0 +1,190 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>Cultural Studies Flashcards</title>
+<style>
+:root{--bg:#f6f7fb;--sf:#fff;--tx:#1d2433;--mu:#64708a;--ac:#3b5bdb;--ok:#2f9e44;--no:#e03131;--bd:#dde1ec;color-scheme:light}
+@media(prefers-color-scheme:dark){:root{--bg:#12151c;--sf:#1b2030;--tx:#e8ebf4;--mu:#98a2bd;--ac:#7c93ff;--ok:#51cf66;--no:#ff6b6b;--bd:#2c3348;color-scheme:dark}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--tx);font:17px/1.5 system-ui,sans-serif}
+main{max-width:760px;margin:auto;padding:16px}
+nav{display:flex;gap:8px;margin-bottom:12px}nav button{flex:1}
+button,select{font:inherit;padding:10px 14px;border-radius:10px;border:1px solid var(--bd);background:var(--sf);color:var(--tx);cursor:pointer}
+button.on,button.p{background:var(--ac);color:#fff;border-color:var(--ac)}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}.row>*{flex:1}
+.scene{perspective:1200px;margin:12px 0}
+.card{position:relative;min-height:340px;transition:transform .5s;transform-style:preserve-3d;cursor:pointer}
+.card.f{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;background:var(--sf);border:1px solid var(--bd);border-radius:16px;padding:22px;overflow:auto}
+.back{transform:rotateY(180deg)}
+.tag{color:var(--mu);font-size:14px}.q{font-size:21px;font-weight:600;margin:8px 0 14px}
+.opt{display:block;width:100%;text-align:left;margin:7px 0}
+.opt.ok{background:var(--ok);color:#fff}.opt.no{background:var(--no);color:#fff}
+.ans{font-size:22px;font-weight:700;color:var(--ok);margin:10px 0}
+.box{background:var(--sf);border:1px solid var(--bd);border-radius:14px;padding:16px;margin:10px 0}
+.bar{height:12px;background:var(--bd);border-radius:6px;overflow:hidden}.bar i{display:block;height:100%;background:var(--ac)}
+.big{font-size:30px;font-weight:700}
+</style></head><body><main>
+<h2 style="margin:4px 0 12px">Cultural Studies Flashcards</h2>
+<nav><button id="t0" class="on">Study</button><button id="t1">Practice</button><button id="t2">Progress</button></nav>
+<div class="row" id="flt"><select id="wk"></select><select id="st"><option value="all">All cards</option><option value="new">Not learned yet</option><option value="hard">Need more practice</option></select></div>
+<div id="v"></div></main>
+<script>
+// Format: week | question | correct answer | 4 wrong answers separated by ; | (optional) short explanation
+const RAW=`1|The word "culture" comes from the Latin word colere. It means:|to cultivate, to live in, or to honor|to write;to fight;to trade;to rule
+1|Cicero described culture as:|cultivation of the soul (cultura animi)|control of nature;trade of goods;a type of law;a war skill
+1|Paideia in ancient Greece means:|the formation of a citizen in the Greek polis|a type of war;a holy book;a market;a kind of music
+1|Who made a list of more than 200 definitions of culture in 1952?|A. Kroeber and C. Kluckhohn|E. Tylor and L. White;R. Dawkins and M. Arnold;C. Geertz and V. Turner;F. Boas and M. Mead|Their book: Culture: A Critical Review of Concepts and Definitions.
+1|Who wrote the "complex whole" definition of culture in Primitive Culture (1871)?|Edward Burnett Tylor|Leslie White;Richard Dawkins;Clifford Geertz;Franz Boas
+1|Cultural relativism means we understand a person's beliefs:|from the view of their own culture|from our own culture only;by scientific tests only;by comparing with the West;by judging them
+1|Who are the main names of symbolic theory of culture?|V. Turner and C. Geertz|F. Boas and M. Mead;A. Kroeber and C. Kluckhohn;R. Barthes and O. Suleimenov;R. Dawkins and L. White|Culture is like a text that we must interpret through symbols.
+1|Who compared memes to biological genes?|Richard Dawkins|Leslie White;Edward Tylor;Homi Bhabha;Ferdinand de Saussure
+1|Who introduced Cultural Studies as a science?|Leslie Alwin White|Edward Tylor;Franz Boas;Roland Barthes;Charles Morris
+1|Morphology of culture studies:|the structure, forms and types of culture|only old buildings;only languages;only money;only religion
+1|Norms are:|expectations of how people will behave|ideas about what is important;mechanisms of social control;secret signs;holy texts
+1|Sanctions are:|ways of social control|ideas about what is important;types of music;kinds of art;names of gods
+1|A culture with values that go against the established society is called:|counterculture|folk culture;mass culture;high culture;digital culture
+1|Which culture is based on traditional customs, oral traditions and crafts?|Folk culture|Mass culture;Digital culture;Elite culture;Ecological culture
+1|Another name for "elite culture" is:|high culture|low culture;mass culture;folk culture;material culture
+1|The idea that language shapes how people think is called:|linguistic relativity (Sapir-Whorf)|cultural code;semiosis;morphology;glocalization
+1|In Kazakh, the word "bauyrym" (literally "my liver") shows:|kinship and closeness|blessing;sacred trust;affection and care;wealth
+1|In culture and civilization: culture is the ___ side of society.|internal (values, norms, beliefs)|external (buildings and institutions);only military;only economic;only political
+2|In Saussure's model, a sign is made of:|signifier + signified|icon + index;denotation + myth;syntactics + pragmatics;code + symbol
+2|The signifier is:|the material form (a word, sound or image)|the idea or meaning;the object;the interpreter;the myth
+2|Peirce's sign that looks like what it shows is called an:|icon|index;symbol;code;myth|Examples: a photo, a pictogram.
+2|Smoke is a sign of fire. In Peirce's types, this is an:|index|icon;symbol;myth;connotation
+2|A sign with no natural link to its meaning, learned by convention, is a:|symbol|icon;index;signifier;myth|Examples: words, traffic signs.
+2|Charles Morris named three areas of semiotics. They are:|semantics, syntactics, pragmatics|icon, index, symbol;denotation, connotation, myth;knowledge, values, rules;signifier, signified, sign
+2|Julia Kristeva developed:|semanalysis|mythologies;structuralism;paideia;glocalization
+2|Roland Barthes described three levels of meaning:|denotation, connotation, myth|icon, index, symbol;semantics, syntactics, pragmatics;sign, code, text;form, value, rule
+2|In Barthes' theory, "myths" are:|connotations that look normal and natural|the first literal meaning;old stories about gods;a type of icon;a type of dictionary
+2|Denotation is:|the literal meaning shared by most people in a culture|a hidden myth;a feeling only;an index;a code
+2|Olzhas Suleimenov wrote the book:|AZ i IA|Mythologies;Primitive Culture;Kutadgu Bilig;Simulacra and Simulation
+2|Cultural code is:|a set of images and signs linked to the thinking of a group|a secret computer program;a law of the state;a type of money;only a written language
+2|The three kinds of meaning in the anatomy of culture are:|knowledge, values, regulatives|icon, index, symbol;past, present, future;art, religion, law;form, color, sound
+3|Nomadism is a way of life based on:|seasonal movement and herding animals|farming only;trade in cities;hunting only;fishing only
+3|Type of nomadism when half of the time, mostly in winter, people live as settled:|semi-nomadic|fully nomadic;digital;distant;yaylak
+3|Yaylak (yaylag) means:|a summer highland pasture|a winter house;a type of tent;a ruler;a holy place
+3|The shanyrak of the yurt is:|the crown of the yurt (a cross in a circle)|the door;the felt cover;the floor;a ritual drum|It shows eternal movement, the sun, family and unity.
+3|The uyk (roof poles of the yurt) are seen as symbols of:|the rays of the sun|the moon;the earth;the horse;the enemy
+3|The ornament "koshkar muyiz" (ram's horns) means:|vitality, prosperity and pastoral life|freedom of the sky;cycles of nature;war;trade
+3|The ornament "qus tumsyq" (bird's beak) means:|freedom and the celestial sphere|vitality;the cycles of the moon;family;wealth
+3|Digital nomadism is a way of life where people:|work remotely and often move between places|farm and move with animals;only travel for fun;live in one office;only study
+3|Who wrote the book "Digital Nomad"?|Tsugio Makimoto and David Manners|Richard Dawkins;Roland Robertson;Kalervo Oberg;Christopher Earley
+3|Tengri is:|the universal supreme deity, the Blue Sky|goddess of fertility;god of the lower world;god of the earth;a shaman
+3|Umai in ancient Turkic belief is:|a female deity, protector of women and children|the god of the lower world;a shaman;the sky god;a warrior
+3|Erlik (Erklig) is:|the god and ruler of the lower world|the sky god;the protector of children;a holy fire;a poet
+3|Baksy is:|a traditional shaman who links people and spirits|a king;a poet;a doctor of Greece;a judge
+3|Which Saka thinker is one of the seven sages?|Anacharsis|Toxaris;Al-Farabi;Balasaguni;Kashgari
+3|Toxaris, a Scythian, became respected in Athens as a:|physician ("Foreign Physician")|king;poet;soldier;merchant|In Lucian's dialogue he talks about friendship.
+4|In a medieval city, the shahristan is:|the central part where the ruler and nobles lived|a suburb for crafts;a bazaar;a bath;a mosque
+4|The rabad is:|a suburb with craft settlements outside the shahristan|the central citadel;the ruler's house;a mosque;a road
+4|Al-Farabi is known as:|the "Second Teacher" after Aristotle|the First Teacher;the Wise King;the Father of Poetry;the Great Khan
+4|One of Al-Farabi's works is:|The Great Book of Music|Kutadgu Bilig;Diwan-i Hikmet;Utopia;Diwan Lughat at-Turk
+4|Who wrote Kutadgu Bilig?|Yusuf Balasaguni|Al-Farabi;Mahmud al-Kashgari;Khoja Ahmed Yasawi;Attar|It is a guide to wise and fair governing.
+4|Mahmud al-Kashgari wrote:|Diwan Lughat at-Turk (1072-1074)|Kutadgu Bilig;Diwan-i Hikmet;The Path of Abai;Conference of the Birds|It is a dictionary and encyclopedia of Turkic culture.
+4|In Kutadgu Bilig, Kun-Togdi (the ruler) stands for:|Justice|Fortune;Wisdom;Moderation;Power
+4|Sufism is:|mystical Islam seeking direct personal experience of God|a type of Tengrism;a political party;a type of law;a trade guild
+4|Khoja Ahmed Yasawi wrote:|Diwan-i Hikmet (Book of Wisdom)|Kutadgu Bilig;Dede Korkut;Abai Zholy;Nomads
+4|The mausoleum of Khoja Ahmed Yasawi is in the city of:|Turkistan|Taraz;Sygnak;Otrar;Almaty
+4|A tariqa is:|a Sufi brotherhood (order)|a type of tent;a city wall;a coin;a ruler
+5|Zhyraus were:|epic storytellers, historians and advisers|only dombra makers;only warriors;only farmers;only judges
+5|Akyns were:|improvising poets and singers|rulers;shamans;teachers;builders
+5|Who was a chief adviser to Abylai Khan and a famous zhyrau?|Bukhar Zhyrau|Kurmangazy;Tattimbet;Abai;Shortanbai
+5|Kurmangazy was a master of:|kuy (instrumental music) on the dombra|opera;painting;novels;cinema
+5|Who is the founder of classical dombra music, a master of the shertpe style?|Tattimbet|Kurmangazy;Dina;Musa;Abai
+5|Zhayau Musa's famous song is:|Ak Sisa|Saryarka;Adai;Kishkentai;Alatau
+5|The Zar-Zaman ("Era of Sorrow") poets were led by:|Shortanbai Kanayuly|Bukhar Zhyrau;Abai;Kurmangazy;Dulatuly
+5|Zar-Zaman poetry criticized:|Russian colonial rule and the loss of Kazakh traditions|the Dzungars only;Soviet cinema;Islam;the Mongols
+5|Zhar-Zhar is:|a choral wedding song|a funeral prayer;a dombra style;a war song;a fairy tale
+5|April 15 is known as:|Kozy Korpesh - Bayan Sulu Day (Day of Lovers)|Nauryz;Independence Day;Day of the tenge;Abai Day
+5|The horse of Kabanbai batyr was named:|Qubas|Tulpar;Sanik;Arlan;Kokbora
+6|The December Events (Zheltoqsan) of 1986 were against the appointment of:|G. Kolbin|M. Auezov;K. Satpayev;O. Suleimenov;N. Nazarbayev
+6|The Nevada-Semipalatinsk anti-nuclear movement (1989) was founded by:|Olzhas Suleimenov|Mukhtar Shakhanov;Kanysh Satpayev;Abai;Mukhtar Auezov
+6|The Law on Languages (1989) gave the Kazakh language the status of:|the state language|an international language;a school subject only;a religious language;a foreign language
+6|Who wrote "The Path of Abai" (Abai Zholy)?|Mukhtar Auezov|Sabit Mukanov;Ilyas Esenberlin;Abdizhamil Nurpeisov;Mirzhakyp Dulatuly
+6|"Unhappy Zhamal" (1910) is seen as:|the first novel in Kazakh literature|the first Kazakh film;the first opera;the first dictionary;the first law
+6|Who was the first president of the Academy of Sciences of the Kazakh SSR (1946)?|Kanysh Satpayev|Olzhas Suleimenov;Abai;Al-Farabi;Mukhtar Auezov
+6|Amangeldy (1938-39) was:|the first feature film with a Kazakh theme|the first opera;the first novel;a famous painting;a famous kuy
+6|Who is seen as the founder of Kazakh fine art?|A. Kasteev|N. Khludov;N. Krutilnikov;R. Khalfin;S. Maslov
+6|By 1939, literacy among people under 50 reached:|83.6%|50%;60.2%;95%;100%
+6|Today's Al-Farabi Kazakh National University was founded in:|1934|1928;1946;1991;1953
+7|The Declaration on State Sovereignty of Kazakhstan was signed on:|October 25, 1990|December 16, 1991;November 15, 1993;December 1986;September 1989
+7|The Day of Independence of Kazakhstan is:|16 December 1991|25 October 1990;15 November 1993;1 December 1991;22 March 1997
+7|The tenge came into circulation on:|November 15, 1993|November 12, 1993;December 16, 1991;October 25, 1990;January 1, 2000
+7|Glocalization (term of Roland Robertson) means:|adapting global culture to local customs|a ban on foreign culture;a loss of identity;world uniformity;a type of museum
+7|Multiculturalism means:|living together and respecting different groups in one society|forcing all people into one culture;a single language;only trade;only art
+7|Cultural intelligence (CQ) was described by:|Christopher Earley and Soon Ang|Geert Hofstede;Roland Robertson;Virginia Shea;Kalervo Oberg
+7|Who wrote the 10 rules of netiquette?|Virginia Shea|Jean Baudrillard;Geert Hofstede;Soon Ang;Homi Bhabha
+7|The first rule of netiquette is:|Remember the human|Respect privacy;Look good online;Be forgiving;Share knowledge
+7|Jean Baudrillard wrote about:|Simulacra and Simulation|Mythologies;The Selfish Gene;Primitive Culture;The Location of Culture
+7|Which artist made the installation "Flying White" (1997)?|Rustam Khalfin|Sergei Maslov;Moldakul Narymbetov;A. Kasteev;N. Khludov
+8|Geert Hofstede first studied people who worked for:|IBM|Google;UNESCO;Microsoft;the UN
+8|The Power Distance Index shows:|how much unequal power is accepted in society|how people cope with stress;how long people plan;the role of men and women;the love of fun
+8|The Uncertainty Avoidance Index shows:|how well people cope with anxiety|how much power is shared;the time view;the role of money;the size of families
+8|The Baiterek Tower in Astana was designed by:|Akmyrza Rustembekov|Norman Foster;Roland Robertson;Georg Simmel;Kasteev
+8|Khan Shatyr and the Pyramid of Peace were designed by:|Norman Foster|Akmyrza Rustembekov;Rustam Khalfin;Le Corbusier;Zaha Hadid
+8|The Pyramid of Peace shows Kazakhstan's:|dedication to interfaith harmony|military power;oil wealth;Soviet past;love of sport
+8|The Mangilik El Triumphal Arch was opened on:|16 December 2011|25 October 1990;1 May 1997;15 November 1993;22 March 2010
+8|Georg Simmel wrote "The Metropolis and Mental Life" (1903) after watching:|Berlin|Paris;Astana;Moscow;London
+9|Who introduced the term "culture shock"?|Kalervo Oberg|Geert Hofstede;Richard Dawkins;Homi Bhabha;Roland Robertson
+9|The first stage of culture shock is:|Honeymoon|Rejection;Adjustment;Mastery;Anger
+9|The stages of culture shock are:|honeymoon, rejection, adjustment, mastery|rejection, honeymoon, anger, peace;joy, fear, anger, sleep;arrival, work, rest, exit;love, hate, trade, art
+9|Digital humanities began in 1946 with the work of:|Roberto Busa|Ada Lovelace;Richard Dawkins;Kalervo Oberg;Chris Barker
+9|The term "meme" was introduced in the book:|The Selfish Gene (1976)|Primitive Culture;Mythologies;Digital Nomad;The Location of Culture
+9|Who is called the first computer programmer?|Ada Lovelace|Roberto Busa;Virginia Shea;Julia Kristeva;Soon Ang
+9|The "glass ceiling" is:|an invisible barrier that stops women from top jobs|a type of window;a salary tax;a computer error;a type of museum
+9|The E-museum of Kazakhstan has over:|700 3D exhibits|70 exhibits;7,000 exhibits;70,000 exhibits;7 exhibits
+10|UNESCO was created in:|1945|1991;1990;2004;1972
+10|How many Kazakhstani sites are on the UNESCO World Heritage List (in the lecture)?|7|3;5;14;20
+10|The state program "Cultural Heritage" started in:|2004|1991;1997;2011;2020
+10|Who wrote "The Location of Culture" (1994) about cultural hybridity?|Homi Bhabha|Roland Barthes;Geert Hofstede;Edward Tylor;Clifford Geertz
+10|"Taza Kazakhstan" is a national campaign about:|protecting the environment|learning languages;digital banking;sport;wedding rules
+10|Ulytau is an example of an:|associative landscape|designed landscape;organically evolved landscape;city park;farm
+10|The Mausoleum of Yasawi is an example of a:|designed landscape|associative landscape;organically evolved landscape;desert;mountain
+10|The Final exam has:|40 questions in 50 minutes|20 questions in 30 minutes;100 questions in 2 hours;30 questions in 40 minutes;50 questions in 60 minutes`;
+const C=RAW.split("\n").map((l,i)=>{const p=l.split("|");return{id:i,w:+p[0],q:p[1],a:p[2],d:p[3].split(";"),e:p[4]||""}});
+const K="csflash1";let S={known:{},hard:{},scores:[]};
+try{S=Object.assign(S,JSON.parse(localStorage.getItem(K)||"{}"))}catch(e){}
+const save=()=>{try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}};
+const $=id=>document.getElementById(id),sh=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const L="ABCDE";let tab=0,deck=[],pos=0,flip=false,P=null;
+$("wk").innerHTML='<option value="0">All lectures</option>'+[...Array(10)].map((_,i)=>`<option value="${i+1}">Lecture (Week) ${i+1}</option>`).join("");
+function filt(){const w=+$("wk").value,s=$("st").value;return C.filter(c=>(!w||c.w==w)&&(s=="all"||(s=="new"&&!S.known[c.id])||(s=="hard"&&S.hard[c.id])))}
+function build(){deck=filt();pos=0;flip=false;P=null;render()}
+function opts(c){return sh([c.a,...c.d]).slice(0,5)}
+function render(){["t0","t1","t2"].forEach((t,i)=>$(t).className=i==tab?"on":"");$("flt").style.display=tab==2?"none":"flex";
+ if(tab==2)return prog();
+ if(!deck.length){$("v").innerHTML='<div class="box">No cards match this filter.</div>';return}
+ tab==0?study():prac()}
+function study(){const c=deck[pos];
+ const o=c._o||(c._o=opts(c));
+ $("v").innerHTML=`<div class="tag">Card ${pos+1} of ${deck.length}${S.known[c.id]?" · ✔ known":""}${S.hard[c.id]?" · ⚠ need practice":""}</div>
+<div class="scene"><div class="card ${flip?"f":""}" id="cd"><div class="face"><div class="tag">Lecture ${c.w}</div><div class="q">${c.q}</div>${o.map((x,i)=>`<div>${L[i]}) ${x}</div>`).join("")}<p class="tag">Tap the card to see the answer</p></div>
+<div class="face back"><div class="tag">Lecture ${c.w}</div><div class="q">${c.q}</div><div class="ans">${L[o.indexOf(c.a)]}) ${c.a}</div><div>${c.e}</div></div></div></div>
+<div class="row"><button id="pv">← Previous</button><button id="sa">Show answer</button><button id="nx">Next →</button></div>
+<div class="row"><button id="kn" class="p">I know this</button><button id="hd">Need more practice</button><button id="sf">Shuffle</button></div>`;
+ $("cd").onclick=$("sa").onclick=()=>{flip=!flip;$("cd").classList.toggle("f",flip)};
+ const go=d=>{pos=(pos+d+deck.length)%deck.length;flip=false;deck[pos]._o=null;study()};
+ $("pv").onclick=()=>go(-1);$("nx").onclick=()=>go(1);
+ $("kn").onclick=()=>{S.known[c.id]=1;delete S.hard[c.id];save();go(1)};
+ $("hd").onclick=()=>{S.hard[c.id]=1;delete S.known[c.id];save();go(1)};
+ $("sf").onclick=()=>{deck=sh(deck);pos=0;flip=false;study()}}
+function prac(){
+ if(!P)P={i:0,s:0,list:sh(deck),done:false,pick:null,o:null};
+ if(P.i>=P.list.length){S.scores.push({d:new Date().toLocaleDateString(),s:P.s,n:P.list.length});save();
+  $("v").innerHTML=`<div class="box"><div class="tag">Final result</div><div class="big">${P.s} / ${P.list.length}</div><p>${Math.round(100*P.s/P.list.length)}% correct</p><button class="p" id="rs">Restart</button></div>`;
+  $("rs").onclick=()=>{P=null;prac()};return}
+ const c=P.list[P.i];P.o=P.o||opts(c);
+ $("v").innerHTML=`<div class="tag">Question ${P.i+1} of ${P.list.length} · Score ${P.s}</div><div class="box"><div class="tag">Lecture ${c.w}</div><div class="q">${c.q}</div>
+ ${P.o.map((x,i)=>{let cl="";if(P.pick!=null){if(x==c.a)cl="ok";else if(i==P.pick)cl="no"}return`<button class="opt ${cl}" data-i="${i}">${L[i]}) ${x}</button>`}).join("")}
+ ${P.pick!=null?`<p><b>${P.o[P.pick]==c.a?"✔ Correct!":"✘ Not correct."}</b> Answer: ${c.a}. ${c.e}</p><button class="p" id="nq">${P.i+1<P.list.length?"Next question":"See result"}</button>`:""}</div>`;
+ document.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{if(P.pick!=null)return;P.pick=+b.dataset.i;
+  if(P.o[P.pick]==c.a){P.s++;S.known[c.id]=1;delete S.hard[c.id]}else{S.hard[c.id]=1;delete S.known[c.id]}save();prac()});
+ if($("nq"))$("nq").onclick=()=>{P.i++;P.pick=null;P.o=null;prac()}}
+function prog(){const n=C.length,k=Object.keys(S.known).length,h=Object.keys(S.hard).length,pc=Math.round(100*k/n);
+ $("v").innerHTML=`<div class="box"><div class="tag">Overall progress</div><div class="big">${pc}%</div><div class="bar"><i style="width:${pc}%"></i></div></div>
+ <div class="box">Total cards: <b>${n}</b><br>Learned: <b>${k}</b><br>Need more practice: <b>${h}</b><br>Not seen yet: <b>${n-k-h}</b></div>
+ <div class="box"><div class="tag">Practice scores</div>${S.scores.length?S.scores.slice(-10).reverse().map(x=>`<div>${x.d}: ${x.s} / ${x.n}</div>`).join(""):"No practice test yet."}</div>
+ <button id="rp">Reset all progress</button>`;
+ $("rp").onclick=()=>{if(confirm("Delete all progress?")){S={known:{},hard:{},scores:[]};save();prog()}}}
+[0,1,2].forEach(i=>$("t"+i).onclick=()=>{tab=i;P=null;build()});
+$("wk").onchange=$("st").onchange=()=>{P=null;build()};
+build();
+</script></body></html>
