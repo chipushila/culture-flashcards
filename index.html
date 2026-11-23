@@ -23,7 +23,7 @@ button.on,button.p{background:var(--ac);color:#fff;border-color:var(--ac)}
 </style></head><body><main>
 <h2 style="margin:4px 0 12px">Cultural Studies Flashcards</h2>
 <nav><button id="t0" class="on">Study</button><button id="t1">Practice</button><button id="t2">Progress</button></nav>
-<div class="row" id="flt"><select id="wk"></select><select id="st"><option value="all">All cards</option><option value="new">Not learned yet</option><option value="hard">Need more practice</option></select></div>
+<div class="row" id="flt"><select id="sg"><option value="all">All questions</option><option value="orig">Original lectures</option><option value="new">New exam topics</option></select><select id="wk"></select><select id="st"><option value="all">All cards</option><option value="new">Not learned yet</option><option value="hard">Need more practice</option></select></div>
 <div id="v"></div></main>
 <script>
 // Format: week | question | correct answer | 4 wrong answers separated by ; | (optional) short explanation
@@ -139,14 +139,125 @@ const RAW=`1|The word "culture" comes from the Latin word colere. It means:|to c
 10|Ulytau is an example of an:|associative landscape|designed landscape;organically evolved landscape;city park;farm
 10|The Mausoleum of Yasawi is an example of a:|designed landscape|associative landscape;organically evolved landscape;desert;mountain
 10|The Final exam has:|40 questions in 50 minutes|20 questions in 30 minutes;100 questions in 2 hours;30 questions in 40 minutes;50 questions in 60 minutes`;
-const C=RAW.split("\n").map((l,i)=>{const p=l.split("|");return{id:i,w:+p[0],q:p[1],a:p[2],d:p[3].split(";"),e:p[4]||""}});
+const RAW2=`Culture types|Mass culture means:|commercial cultural products made by media|traditional crafts and oral stories;art for a small elite;living in a green way;secret signs
+Culture types|Ecological culture is about:|sustainable living and climate action|online art;wedding rules;old songs;trade
+Culture types|Digital culture is a culture where users:|do not only read, but also create and share|only watch TV;only read books;only buy goods;only visit museums
+Culture types|Hustle culture is a mindset that:|praises constant work and results|praises rest and play;rejects money;loves old traditions;avoids cities
+Culture types|A subculture is a group whose values are:|different from the main society|the same as the state;only religious;only old;only about money
+Culture types|The Voluntary Human Extinction Movement is an example of:|counterculture|folk culture;mass culture;high culture;digital culture
+Culture types|"Stadtluft macht frei" means:|city air brings freedom|city life is hard;the city has walls;the city is rich;the city is quiet|Urban culture idea. Georg Simmel also wrote that city life gives freedom but also pressure.
+Culture types|Values are:|ideas about what is important in life|expectations of behavior;ways of social control;types of signs;old buildings
+Culture types|Civic education prepares young people for:|life in society, dialogue and respect for human rights|only military service;only art;only trade;only religion
+Culture types|A cultural institution is a place that:|keeps and shares cultural and scientific knowledge|only sells goods;only plays sports;only makes laws;only builds roads|Examples: theatres, operas, museums, libraries, cultural centers.
+Culture types|A virtual museum is:|a digital form of a museum (virtual tours, online museums)|a very old museum;a museum for children only;a museum of weapons;a shop
+Culture types|Orteke is:|a traditional art of dance, puppet and music (UNESCO 2022)|a wedding song;a type of tent;a horse game;a type of bread
+Beliefs|Zher-Su is:|the main deity of the middle world ("sacred land-water")|the god of the lower world;the sky god;the protector of children;a shaman
+Beliefs|Tengrism is:|the old belief of Turks and Mongols before Islam|a type of Sufism;a Greek belief;a Soviet idea;a type of Christianity
+Beliefs|The Umai word also means:|a child's soul from birth until the child walks and talks|a war song;a horse;a yurt part;a dombra|Umai's umbilical cord was kept in a small pouch on the cradle.
+Beliefs|In old Turkic homes, fire in the hearth was used for:|purification from evil spirits|cooking only;trade;war;music
+Beliefs|Which funeral custom is from Tengrian or shamanic belief?|night guard and purification by fire|janaza prayer;body washing;burial facing Mecca;reading the Quran
+Beliefs|Which funeral custom is Islamic?|janaza (ritual prayer)|night guard;purification by fire;burial near the winter house;dancing
+Beliefs|Religious syncretism means:|mixing different beliefs, like Islamic and pre-Islamic|only one belief;no belief;a ban on religion;a new language
+Beliefs|SADUM was:|the Spiritual Administration of the Muslims of Central Asia and Kazakhstan|a Soviet school;a film studio;a Sufi order;a science academy|The lecture names two madrasas linked to it: Mir-i Arab (Bukhara) and Imam Ismail al-Bukhari (Tashkent).
+Traditions|Which are birth customs in the lecture?|shildekhana, besik toi, tusau kesu|zhar-zhar, janaza, kokpar;betashar, asyq, kuy;nauryz, aitys, orteke;baksy, zhyrau, akyn|Tusau kesu is the ceremony of cutting a baby's first steps.
+Traditions|In fairy tales, Zhetyrnaq is:|a mythical creature with copper or iron claws|a fairy;an old witch;a wise old man;a swift runner
+Traditions|In fairy tales, Dyu is:|a demon or giant|a fairy;a kind horse;a wise king;a baksy
+Traditions|Mistan Kempir is:|a wicked old witch|a fairy;a giant;a hero;a ruler
+Traditions|Zhalgyz Kozdi Dau is:|the One-Eyed Giant|the Black Giant;the Swift-Footed One;a fairy;a witch
+Traditions|Kazakh heroic epics are about:|courage and defending the homeland|love and beauty only;trade;farming;weddings|Examples: Er-Targyn, Koblandy. Lyrical epics (Kyz Zhibek) are about love and honor.
+Traditions|Boytumar are:|protective amulets|hair ornaments;a ring for the matchmaker's mother;hinged bracelets;belts
+Traditions|Which are traditional Kazakh national games?|Kokpar, Asyq atu, Togyzqumalaq, Kyz kuu|Chess, golf, tennis, rugby;Football, hockey, polo, judo;Cricket, darts, bowling, rugby;Baseball, boxing, golf, chess
+Traditions|Tolgau poetry is about:|ethics, honor, and life and death|only love;only war;only trade;only weddings
+Signs and nomads|Semi-settled nomadism means:|half of the people move with their animals|all people move;nobody moves;people live in a city;people work online
+Signs and nomads|Aishyq gul ("moonflower") shows:|cycles of nature and the nomadic sense of time|war;wealth;a ruler;a river
+Signs and nomads|Conventional signs are signs:|made and agreed by society (+, -, =)|that look like the object;that come from nature;that nobody knows;that are only pictures
+Signs and nomads|Cultural symbols are signs that:|carry deep and complex meaning|have no meaning;are only numbers;are only photos;are only sounds
+Signs and nomads|Semiotics is:|the study of signs and meaning|the study of money;the study of stars;the study of animals;the study of cities
+Signs and nomads|In Barthes' example of the Eiffel Tower, the denotation is:|a tower in Paris|romance;France;tourism;a natural symbol of Paris
+Signs and nomads|In Barthes' example of the Eiffel Tower, the myth is:|the tower becomes a "natural" symbol of Paris|a tower in Paris;a tall building;a tourist ticket;a metal frame
+Medieval|Which are medieval Turkic urban centres in the lecture?|Otrar, Taraz, Suyab, Balasagun, Sygnak|Moscow, Paris, Rome, Berlin, Cairo;Almaty only;Astana only;London, Delhi, Tokyo, Lima, Oslo
+Medieval|A citadel is:|the strongest, most protected part of a city|a market;a bath;a suburb;a road
+Medieval|Which city element was NEW in this medieval period?|the mosque|the bazaar;the bath;the wall;the road
+Medieval|Medieval coins in the lecture were:|gold dinars and silver-plated dirhams|tenge;euros;rubles;dollars
+Medieval|The word "Sufism" (tasawwuf) literally means:|to dress in wool|to pray at night;to love God;to read;to travel
+Medieval|Which are Sufi orders in the lecture?|Naqshbandi, Yassawi, Qadiriyya|Tengri, Umai, Erlik;Sunni, Shia, Ibadi;Honeymoon, Mastery, Rejection;Saka, Hun, Turk
+Medieval|Sufism spread widely in Central Asia in the:|10th-12th centuries|2nd-4th centuries;15th-16th centuries;18th century;20th century
+Medieval|"The Conference of the Birds" was written by:|Farid ud-Din Attar|Yusuf Balasaguni;Al-Farabi;Khoja Ahmed Yasawi;Mahmud al-Kashgari
+Medieval|Kashgari's proverb "If you cannot bite a stone, kiss it" means:|be kind to reach your goal|stones are hard;never give up;be strong;kiss your friends
+Medieval|Renaissance culture focused on:|humanism and human dignity|sacred texts only;kings only;war;trade only
+Medieval|Enlightenment culture (Voltaire, Montesquieu, Rousseau) focused on:|reason, science, freedom and equality|sin and salvation;sacred texts;old tribes;magic
+Medieval|Culture in the Western Middle Ages focused on:|God, the soul and salvation|reason and science;human dignity;trade;nature only
+Medieval|Al-Farabi, Ibn Sina and Al-Biruni belong to:|medieval Islamic culture|the Renaissance;the Enlightenment;Soviet culture;Greek culture
+People and art|Who wrote the opera "Birzhan and Sara"?|M. Tulebaev|E. Brusilovski;A. Zhubanov;L. Khamidi;K. Satpayev
+People and art|Who wrote the opera "Kyz Zhibek"?|E. Brusilovski|M. Tulebaev;A. Zhubanov;N. Khludov;A. Kasteev
+People and art|Who wrote the books "Forty Fables" and "The Mosquito"?|Akhmet Baitursynov|Mirzhakyp Dulatuly;Alikhan Bokeikhanov;Mukhtar Auezov;Sabit Mukanov
+People and art|Who wrote "Awake, Kazakh!" (1909)?|Mirzhakyp Dulatuly|Akhmet Baitursynov;Alikhan Bokeikhanov;Abai;Ilyas Esenberlin
+People and art|"Nomads" is a multi-volume work by:|Ilyas Esenberlin|Mukhtar Auezov;Sabit Mukanov;Olzhas Suleimenov;A. Nurpeisov
+People and art|Who wrote "Botagoz"?|Sabit Mukanov|Mukhtar Auezov;Ilyas Esenberlin;A. Nurpeisov;Bauyrzhan Momyshuly
+People and art|Who wrote "Blood and Sweat"?|A. Nurpeisov|Sabit Mukanov;Mukhtar Auezov;Ilyas Esenberlin;Dulatuly
+People and art|Who played the role of Amangeldy in the film?|Elubai Umurzakov|Kanysh Satpayev;Olzhas Suleimenov;Rustam Khalfin;A. Kasteev
+People and art|Who started a painting studio in 1920?|N. Khludov|A. Kasteev;N. Krutilnikov;R. Khalfin;S. Maslov
+People and art|Name opera singers from the lecture:|Roza Baglanova and Bibigul Tulegenova|Dina and Kurmangazy;Abai and Auezov;Tattimbet and Musa;Khalfin and Maslov
+People and art|Rustam Khalfin, Sergei Maslov and Moldakul Narymbetov were:|contemporary Kazakh artists|opera singers;medieval scholars;zhyraus;film directors
+Identity and globalization|Globalization means:|more links and dependence between countries|each country is alone;only trade;only war;only culture
+Identity and globalization|A common result of globalization is:|a blurring of cultural borders and more uniformity|no migration;stronger borders;less trade;more isolation
+Identity and globalization|Self-identity is:|how we think about ourselves and tell our own story|a country's law;a social media photo;a type of sign;a museum
+Identity and globalization|Digital identity is:|how you show yourself on social media|your passport;your home address;your family name;your job
+Identity and globalization|National identity is the link of citizens with:|their country's history, culture and values|their own job;their own city only;the internet;trade
+Identity and globalization|Cultural hybridity (Homi Bhabha) means:|mixing of different cultures into new forms|keeping cultures separate;losing a culture;copying one culture;a ban on culture
+Identity and globalization|One challenge of globalization for culture is:|pressure on language and less interest of young people|more museums;more heritage;global visibility;modern media
+Identity and globalization|Tradition gives culture:|a stable base and continuity|only change;only technology;only money;only conflict
+Identity and globalization|Traditional ecological knowledge (TEK) includes:|the yurt, horse culture, Tengrism and Nauryz|only computers;only cities;only factories;only malls
+Identity and globalization|Cultural memory is kept by:|museums, schools, local projects, sacred sites|only the army;only banks;only TV;only shops
+Heritage and ecology|UNESCO World Heritage has three categories:|monuments, groups of buildings, sites|icons, indexes, symbols;past, present, future;art, music, dance;land, water, air
+Heritage and ecology|Traditional sport "kures" is:|wrestling|a horse game;a knucklebone game;a board game;a dance
+Heritage and ecology|Kokpar is:|a horseback game|wrestling;a knucklebone game;a board game;a song
+Heritage and ecology|Asyk is:|a knucklebone game|wrestling;a horse game;a dance;a song
+Heritage and ecology|How many ICH elements of Kazakhstan are listed in the lecture?|14|7;5;20;40
+Heritage and ecology|Which three types of cultural landscapes are in the lecture?|designed, organically evolved, associative|city, village, desert;old, new, future;rural, urban, mixed;sea, land, air
+Heritage and ecology|The Kazakh steppe is an example of an:|organically evolved landscape|designed landscape;associative landscape;city park;garden
+Heritage and ecology|Ecological culture is a system of:|knowledge and values about humans and nature|only laws;only money;only art;only machines
+Hofstede and CQ|Hofstede's six dimensions include:|power distance, individualism, masculinity, uncertainty avoidance, long-term orientation, indulgence|only power and money;only age and gender;only East and West;only religion
+Hofstede and CQ|In a high individualism society, people:|have weak ties outside the close family|put the group first;share all property;obey leaders;avoid privacy
+Hofstede and CQ|In a collectivist society, people:|are loyal to their group and care for each other|care only for themselves;ignore family;avoid groups;love privacy
+Hofstede and CQ|In a masculine society:|success, money and strength are important|modesty is a virtue;roles overlap a lot;relations come first;everyone is equal
+Hofstede and CQ|In a feminine society:|modesty and good relationships are important|men must be strong;money is most important;roles never overlap;winning is key
+Hofstede and CQ|Long-term orientation societies tend to be:|practical, modest and thrifty|religious and nationalistic;strict about truth;very emotional;always fast
+Hofstede and CQ|A high indulgence (IVR) score means people:|enjoy life and have fun freely|have strict rules;suppress feelings;work all day;avoid joy
+Hofstede and CQ|A low indulgence (restraint) score means:|more rules and less free gratification|more fun;no rules;more parties;less culture
+Hofstede and CQ|Which CQ dimension is "knowledge about cultures"?|cognitive CQ|metacognitive CQ;motivational CQ;behavioral CQ;digital CQ
+Hofstede and CQ|Which CQ dimension is "interest and confidence"?|motivational CQ|cognitive CQ;metacognitive CQ;behavioral CQ;digital CQ
+Hofstede and CQ|Which CQ dimension is "flexible behavior"?|behavioral CQ|cognitive CQ;motivational CQ;metacognitive CQ;digital CQ
+Hofstede and CQ|Which CQ dimension is "the mental ability to gain cultural knowledge"?|metacognitive CQ|cognitive CQ;motivational CQ;behavioral CQ;digital CQ
+Astana|The capital moved from Almaty to Akmola (Astana) in:|1997-98|1991;1993;2004;2011|The lecture marks this move as the start of a new urban culture.
+Astana|The Baiterek's golden egg shows:|the Tree of Life, rebirth and continuity|a nomad tent;peace;war;trade
+Astana|Khan Shatyr is:|the tallest tent in the world, a modern nomadic tent|a tower;a pyramid;an arch;a museum
+Astana|Mangilik El means:|Eternal Country|Great Tent;Golden Egg;Peace Palace;Blue Sky
+Astana|An "8-80 city" idea means a city:|good for both 8-year-old and 80-year-old people|only for adults;only for children;only for tourists;only for business
+Astana|A "smart city" uses:|high-tech systems to improve services and life|only old methods;only farms;no technology;only tents
+Digital and ethics|Netiquette is:|rules for good behavior online|a type of money;a computer virus;a school subject;a law of the state
+Digital and ethics|The Golden Rule of Netiquette is:|Do not do or say online what you would not do or say offline|Share expert knowledge;Respect time;Be forgiving;Look good online
+Digital and ethics|Digital ethics studies:|moral rules for people in digital places (internet, AI, data)|only computer parts;only games;only money;only social media photos
+Digital and ethics|The main features of a meme are:|it passes from person to person, copies by imitation, and spreads by competition|it is always a photo;it is secret;it is a law;it is a song
+Digital and ethics|The first projects in digital humanities began in:|1946|1990;2004;1871;2022
+Digital and ethics|Roberto Busa's project made:|the 56-volume Index Thomisticus|the Kazakh National Corpus;ORBIS;the E-museum;Wikipedia
+Digital and ethics|The Kazakh National Corpus has about:|250,000,000 word uses|2,500 words;25,000 words;1,000,000 words;10 words
+Digital and ethics|ORBIS is a model of:|the Roman world (632 sites)|Kazakh cities;the Silk Road in Asia;the Sahara;the Moon
+Digital and ethics|Gender pay gap means:|a difference in pay between men and women for the same work|equal pay;a tax on women;a type of job;a computer error
+Digital and ethics|Gender bias in AI happens when:|AI gives unfair results because of biased data or design|AI is too slow;AI is too expensive;AI is old;AI is secret
+Digital and ethics|Gender equality means:|equal rights, chances and treatment for all genders|only men have rights;only women have rights;no rights;equal pay only
+Digital and ethics|The "Techno Women" group in Kazakhstan:|brings together women who work in technology|is a school;is a bank;is a museum;is a film studio
+Digital and ethics|The Kazakhstan Law on Artificial Intelligence was passed on:|November 17, 2025|January 1, 1991;March 22, 2004;December 16, 2011;July 6, 2020`;
+const mk=(r,o,n)=>r.split("\n").map((l,i)=>{const p=l.split("|");return{id:o+i,w:n?p[0]:+p[0],n:n,q:p[1],a:p[2],d:p[3].split(";"),e:p[4]||""}});
+const O=mk(RAW,0,0),N=mk(RAW2,O.length,1),C=O.concat(N),TP=[...new Set(N.map(c=>c.w))];
+const lab=c=>c.n?"Topic: "+c.w:"Lecture "+c.w;
 const K="csflash1";let S={known:{},hard:{},scores:[]};
 try{S=Object.assign(S,JSON.parse(localStorage.getItem(K)||"{}"))}catch(e){}
 const save=()=>{try{localStorage.setItem(K,JSON.stringify(S))}catch(e){}};
 const $=id=>document.getElementById(id),sh=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
 const L="ABCDE";let tab=0,deck=[],pos=0,flip=false,P=null;
-$("wk").innerHTML='<option value="0">All lectures</option>'+[...Array(10)].map((_,i)=>`<option value="${i+1}">Lecture (Week) ${i+1}</option>`).join("");
-function filt(){const w=+$("wk").value,s=$("st").value;return C.filter(c=>(!w||c.w==w)&&(s=="all"||(s=="new"&&!S.known[c.id])||(s=="hard"&&S.hard[c.id])))}
+$("wk").innerHTML='<option value="0">All lectures</option>'+[...Array(10)].map((_,i)=>`<option value="${i+1}">Lecture (Week) ${i+1}</option>`).join("")+TP.map(t=>`<option value="${t}">Topic: ${t}</option>`).join("");
+function filt(){const w=$("wk").value,s=$("st").value,g=$("sg").value;return C.filter(c=>(g=="all"||(g=="orig"&&!c.n)||(g=="new"&&c.n))&&(w=="0"||c.w==w)&&(s=="all"||(s=="new"&&!S.known[c.id])||(s=="hard"&&S.hard[c.id])))}
 function build(){deck=filt();pos=0;flip=false;P=null;render()}
 function opts(c){return sh([c.a,...c.d]).slice(0,5)}
 function render(){["t0","t1","t2"].forEach((t,i)=>$(t).className=i==tab?"on":"");$("flt").style.display=tab==2?"none":"flex";
@@ -156,8 +267,8 @@ function render(){["t0","t1","t2"].forEach((t,i)=>$(t).className=i==tab?"on":"")
 function study(){const c=deck[pos];
  const o=c._o||(c._o=opts(c));
  $("v").innerHTML=`<div class="tag">Card ${pos+1} of ${deck.length}${S.known[c.id]?" · ✔ known":""}${S.hard[c.id]?" · ⚠ need practice":""}</div>
-<div class="scene"><div class="card ${flip?"f":""}" id="cd"><div class="face"><div class="tag">Lecture ${c.w}</div><div class="q">${c.q}</div>${o.map((x,i)=>`<div>${L[i]}) ${x}</div>`).join("")}<p class="tag">Tap the card to see the answer</p></div>
-<div class="face back"><div class="tag">Lecture ${c.w}</div><div class="q">${c.q}</div><div class="ans">${L[o.indexOf(c.a)]}) ${c.a}</div><div>${c.e}</div></div></div></div>
+<div class="scene"><div class="card ${flip?"f":""}" id="cd"><div class="face"><div class="tag">${lab(c)}</div><div class="q">${c.q}</div>${o.map((x,i)=>`<div>${L[i]}) ${x}</div>`).join("")}<p class="tag">Tap the card to see the answer</p></div>
+<div class="face back"><div class="tag">${lab(c)}</div><div class="q">${c.q}</div><div class="ans">${L[o.indexOf(c.a)]}) ${c.a}</div><div>${c.e}</div></div></div></div>
 <div class="row"><button id="pv">← Previous</button><button id="sa">Show answer</button><button id="nx">Next →</button></div>
 <div class="row"><button id="kn" class="p">I know this</button><button id="hd">Need more practice</button><button id="sf">Shuffle</button></div>`;
  $("cd").onclick=$("sa").onclick=()=>{flip=!flip;$("cd").classList.toggle("f",flip)};
@@ -172,7 +283,7 @@ function prac(){
   $("v").innerHTML=`<div class="box"><div class="tag">Final result</div><div class="big">${P.s} / ${P.list.length}</div><p>${Math.round(100*P.s/P.list.length)}% correct</p><button class="p" id="rs">Restart</button></div>`;
   $("rs").onclick=()=>{P=null;prac()};return}
  const c=P.list[P.i];P.o=P.o||opts(c);
- $("v").innerHTML=`<div class="tag">Question ${P.i+1} of ${P.list.length} · Score ${P.s}</div><div class="box"><div class="tag">Lecture ${c.w}</div><div class="q">${c.q}</div>
+ $("v").innerHTML=`<div class="tag">Question ${P.i+1} of ${P.list.length} · Score ${P.s}</div><div class="box"><div class="tag">${lab(c)}</div><div class="q">${c.q}</div>
  ${P.o.map((x,i)=>{let cl="";if(P.pick!=null){if(x==c.a)cl="ok";else if(i==P.pick)cl="no"}return`<button class="opt ${cl}" data-i="${i}">${L[i]}) ${x}</button>`}).join("")}
  ${P.pick!=null?`<p><b>${P.o[P.pick]==c.a?"✔ Correct!":"✘ Not correct."}</b> Answer: ${c.a}. ${c.e}</p><button class="p" id="nq">${P.i+1<P.list.length?"Next question":"See result"}</button>`:""}</div>`;
  document.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{if(P.pick!=null)return;P.pick=+b.dataset.i;
@@ -185,6 +296,6 @@ function prog(){const n=C.length,k=Object.keys(S.known).length,h=Object.keys(S.h
  <button id="rp">Reset all progress</button>`;
  $("rp").onclick=()=>{if(confirm("Delete all progress?")){S={known:{},hard:{},scores:[]};save();prog()}}}
 [0,1,2].forEach(i=>$("t"+i).onclick=()=>{tab=i;P=null;build()});
-$("wk").onchange=$("st").onchange=()=>{P=null;build()};
+$("wk").onchange=$("st").onchange=$("sg").onchange=()=>{P=null;build()};
 build();
 </script></body></html>
